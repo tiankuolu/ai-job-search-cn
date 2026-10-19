@@ -79,6 +79,14 @@ cd ai-job-search
 
 > 公开仓库的 fork 不能设为私有，而 `/setup` 会将个人资料写入受 Git 追踪的文件。个人求职请使用以本仓库为 `upstream` 的私有仓库；具体步骤见 [SETUP.md 第 8 节](SETUP.md#8-pulling-upstream-updates-into-your-fork)。
 
+如需使用上游门户搜索 CLI，可先安装依赖：
+
+```bash
+python3 tools/install_portal_clis.py
+```
+
+它会在 `.agents/skills/*/cli/` 下自动发现并运行 `bun install`；带 install-time lifecycle script 的 CLI 会被跳过并报告。`--dry-run` 可预览。`linkedin-search` 和 `freehire-search` 可选安装：二者无运行时依赖，`bun install` 只拉取 TypeScript 类型。
+
 ```bash
 claude
 ```
@@ -261,7 +269,7 @@ xelatex -interaction=nonstopmode cover_example.tex
 - **`/gmail-sync`** reads your Gmail (via the Gmail connector) for status signals on your open applications - interview invites, assessment links, offers, rejections - and proposes them as a batch for you to approve before anything is written to the tracker or `outcome.md`, citing the source email on every proposed change. Offers stop short of proposing `hired`/`offer_declined` since that's your call; conflicting or unmatched signals get flagged for a manual `/outcome` pass instead of guessed.
 - **`/rank`** bridges `/scrape` and `/apply`: it batch-scores all newly scraped postings against the fit framework (parallel agents fetch each posting and score the five evaluation dimensions) and returns a ranked shortlist with honest per-job strengths and gaps. Deal-breakers veto, deadlines get urgency flags, dead postings get marked expired. Pick a number and it hands off to the full `/apply` workflow.
 - **`/expand`** enriches your profile by scanning public sources you've already linked in it (GitHub repos, portfolio site, Kaggle, Google Scholar) and looking up syllabi for named courses and certifications. Discovered competencies are added to your profile with a source tag. Useful right after `/setup` to surface skills that documents alone don't make explicit.
-- **`/upskill`** analyzes the gap between your profile, your tracked job postings, and your ranked-but-untracked postings (`/rank`'s recorded gaps in `seen_jobs.json`) — or a single posting via `/upskill <URL>`. Produces a prioritized heatmap of skill gaps and a learning plan with web-searched study resources and time estimates. Useful for career planning between applications.
+- **`/upskill`** analyzes the gap between your profile, your tracked job postings, and your ranked-but-untracked postings (`/rank`'s recorded gaps in `job_scraper/seen_jobs.json`) — or a single posting via `/upskill <URL>`. Produces a prioritized heatmap of skill gaps and a learning plan with web-searched study resources and time estimates. Useful for career planning between applications.
 - **`/html-report`** generates a self-contained HTML dashboard from `job_search_tracker.csv` and the application archives — stat cards, status/sector/channel/funnel charts (inline SVG, no external dependencies), and a filterable applications table. Opens directly in a browser, fully offline. Re-run it any time after `/apply` or `/outcome` adds new entries.
 - **`/add-template`** registers your own CV or cover letter template (LaTeX, Typst, or another toolchain) in place of the stock ones. It captures the template's instructions (source extension, compile command, fonts, style rules, page limit), runs a mandatory test compile, and wires the template into `/apply`. See [Custom templates](#custom-templates) below.
 - **`/add-portal`** generates a job-portal search skill for a job board in your market. It investigates the portal (search URL pattern, result structure, access rules), scaffolds the CLI skill from the same structure as the shipped ones, and test-runs a live query before registering. See [Job search tools](#job-search-tools) below.
@@ -350,6 +358,7 @@ ai-job-search/
 │   ├── check_framework_version.py     # CI check: framework_version bumped when skill files change
 │   ├── check_upstream_updates.py      # Preview which personalized files an upstream update touches
 │   ├── convert_salary_excel.py        # Convert salary Excel to JSON
+│   ├── install_portal_clis.py         # Install every discovered portal CLI (bun install)
 │   ├── lint_skills.py                 # CI lint for skills, commands, settings.json
 │   ├── robots_check.py                # Gate the browser-header retry against robots.txt
 │   ├── security_guards.py             # CI guards: permission allowlist, gitignore rules, manifests

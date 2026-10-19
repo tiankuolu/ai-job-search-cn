@@ -1,5 +1,5 @@
 ---
-framework_version: 1.4.5
+framework_version: 1.4.7
 ---
 
 # CV Templates and Tailoring Guide
@@ -65,7 +65,7 @@ Expected output: `Output written on main_<company>_<role>.pdf (2 pages, ...)`. A
     % value here would win and open every CV in fullscreen presentation mode.
     pdfpagemode=UseNone,
 }}
-\usepackage[scale=0.77]{geometry}
+\usepackage[scale=0.80]{geometry}
 \usepackage{import}
 
 % Personal data
@@ -164,12 +164,12 @@ Use the posting's own core term in the matching bullet's bold label when it trut
 State completion inside the entry itself:
 
 ```latex
-\item{\cventry{2025--2026}{[Degree], [Field]}{[Institution]}{[Location]}{}{\vspace{1pt}
+\item{\cventry{2025-2026}{[Degree], [Field]}{[Institution]}{[Location]}{}{\vspace{1pt}
 In progress, expected [Month Year]. [Relevant topics]
 }}
 ```
 
-Any consistent form works: `In progress, expected <Month Year>.` / `Expected completion <Month Year>.` / a date field of `2025–present`.
+Any consistent form works: `In progress, expected <Month Year>.` / `Expected completion <Month Year>.` / a date field of `2025-present`.
 
 Claiming a credential not yet held is a factual misstatement, and it is the kind discovered at transcript or reference check rather than at interview. It costs nothing to prevent. The same applies to in-progress certifications and courses.
 
@@ -254,7 +254,7 @@ After writing the CV and before presenting to the user, always compile and visua
 Add `\needspace{5\baselineskip}` immediately before the problematic `\cventry`:
 ```latex
 \needspace{5\baselineskip}
-\item{\cventry{YEAR--YEAR}{Role Title}{Organization}{Location}{}{...}}
+\item{\cventry{YEAR-YEAR}{Role Title}{Organization}{Location}{}{...}}
 ```
 Include `\usepackage{needspace}` in the preamble.
 
