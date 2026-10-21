@@ -24,12 +24,27 @@ class OpenAICompatClient:
     """真实模型客户端：所有 OpenAI 兼容端点（DeepSeek/Qwen/GLM/Ollama）共用的实现。"""
 
     def __init__(self, config: LLMConfig) -> None:
-        from openai import OpenAI  # 直接 import，缺依赖就地崩溃
+        import os
+
+        import httpx  # 直接 import，缺依赖就地崩溃
+        from openai import OpenAI
 
         config.require()
         self.model = str(config.model)
+        # 超时可配置：本地 CPU 推理的端点单次生成可能超过默认 180 秒
+        timeout_seconds = float(os.environ.get("JOBSEARCH_LLM_TIMEOUT", "180"))
+        # Windows 系统代理（注册表级）会把 localhost 请求劫持到代理软件再返回 502，
+        # 本地端点必须绕过系统代理；云端端点保持默认（尊重用户代理配置）。
+        base = str(config.base_url)
+        http_client = None
+        if "://localhost" in base or "://127.0.0.1" in base:
+            http_client = httpx.Client(trust_env=False, timeout=timeout_seconds)
         self._client = OpenAI(
-            base_url=config.base_url, api_key=config.api_key, timeout=180.0
+            base_url=base,
+            api_key=config.api_key,
+            timeout=timeout_seconds,
+            max_retries=0,
+            http_client=http_client,
         )
 
     def chat(self, messages: list, tools: list) -> dict:

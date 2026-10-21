@@ -8,7 +8,7 @@ from ..runtime import Agent, LLMClient, ToolRegistry, make_spawn_tool
 from ..runtime.trace import Trace
 from ..tools_wrap.file_tools import register_file_tools
 from ..tools_wrap.key_tools import register_key_tools
-from .common import ActionContext, EVALUATED_DIR, INBOX_DIR, RUNS_DIR
+from .common import ActionContext, EVALUATED_DIR, INBOX_DIR, REPO_ROOT, RUNS_DIR
 
 
 def _analyst_factory(client: LLMClient, ctx: ActionContext, trace: Trace):
@@ -16,7 +16,8 @@ def _analyst_factory(client: LLMClient, ctx: ActionContext, trace: Trace):
 
     def factory(task: str) -> Agent:
         tools = ToolRegistry()
-        register_key_tools(tools, ctx.repo_root)
+        # job_key 是仓库自带的确定性工具，与运行工作区无关，固定从包自身仓库加载
+        register_key_tools(tools, REPO_ROOT)
         register_file_tools(tools, ctx.repo_root)
         return Agent(
             name="analyzer",
