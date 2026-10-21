@@ -1,4 +1,5 @@
 # Dependencies
+.artifacts/
 node_modules/
 bun.lock
 
@@ -21,8 +22,7 @@ build/
 
 # Personal data (never commit these)
 salary_data.json
-# Match at any depth: the job-scraper skill resolves `job_scraper/` relative to
-# its own directory, so these land at .claude/skills/job-scraper/job_scraper/*.
+# Match at any depth: workflow output may be written relative to its resource directory.
 # A rooted `job_scraper/...` pattern silently fails to match them.
 **/job_scraper/seen_jobs.json
 **/job_scraper/notion_sync.json
@@ -49,8 +49,8 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Memory files (Claude Code user-specific)
-.claude/projects/
+# Multi-agent runtime: traces, run logs, human-review reports (GOAL.md §5)
+runs/
 
 # Skills lock (auto-generated)
 skills-lock.json
@@ -104,7 +104,7 @@ reports/
 
 # Upskill reports (personal output). Depth-independent like the job_scraper
 # rules above: the upskill skill resolves `upskill/` relative to its own
-# directory, so a report can land at .claude/skills/upskill/upskill/*.md
+# directory, so a report can land at agent-resources/skills/upskill/upskill/*.md
 # where the rooted rule cannot see it. `**/upskill/*.md` is not usable here -
 # the skill directory shares the `upskill` name, so it would also ignore the
 # skill's own SKILL.md - hence the report-file prefix is pinned instead.

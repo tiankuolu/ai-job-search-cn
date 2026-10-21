@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: 需要 JOBSEARCH_LLM_* 环境变量的真实模型调用（GOAL.md 验收 A3-A9）",
+]
+addopts = "-m 'not integration'"
