@@ -118,14 +118,12 @@ class Agent:
                 final_text = message.get("content") or ""
                 return final_text
 
-            if record is not None:
-                record.tool_calls = tool_calls
             for call in tool_calls:
-                result = self._execute_tool_call(call)
+                result = self._execute_tool_call(call, record)
                 messages.append(
                     {
                         "role": "tool",
-                        "tool_call_id": call["id"],
+                        "tool_call_id": call.get("id", ""),
                         "content": result,
                     }
                 )
@@ -133,15 +131,23 @@ class Agent:
             f"agent {self.name} 达到最大轮数 {self.max_turns} 仍未给出最终回复"
         )
 
-    def _execute_tool_call(self, call: dict) -> str:
-        name = call["function"]["name"]
-        raw_args = call["function"].get("arguments") or "{}"
+    def _execute_tool_call(self, call: dict, record: LLMCallRecord | None = None) -> str:
+        # DeepSeek 偶发返回缺 function 键的残缺 tool_call，回填错误让模型自行纠正
+        function = call.get("function")
+        if not isinstance(function, dict) or not function.get("name"):
+            return json.dumps(
+                ToolResult(
+                    output=f"malformed tool call: {json.dumps(call, ensure_ascii=False)[:200]}",
+                    is_error=True,
+                ).__dict__,
+                ensure_ascii=False,
+            )
+        name = function["name"]
+        raw_args = function.get("arguments") or "{}"
         try:
             arguments = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
-            if self.trace is not None and self.trace.records:
-                self.trace.records[-1].tool_calls.append(
-                    {"name": name, "arguments": arguments}
-                )
+            if record is not None:
+                record.tool_calls.append({"name": name, "arguments": arguments})
             output = self.tools.get(name).invoke(arguments)
             return json.dumps(
                 {"output": output if isinstance(output, str) else output},
