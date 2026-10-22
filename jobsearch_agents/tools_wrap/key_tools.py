@@ -60,6 +60,27 @@ def _load_job_key(repo_root: Path):
     return module
 
 
+def _flat_overall_score(
+    technical: int,
+    experience: int,
+    domain: int,
+    communication: int,
+    compensation_location: int,
+    growth: int,
+) -> int:
+    """扁平参数适配：工具 schema 按六个维度字段传递，底层函数吃字典。"""
+    return overall_score(
+        {
+            "technical": technical,
+            "experience": experience,
+            "domain": domain,
+            "communication": communication,
+            "compensation_location": compensation_location,
+            "growth": growth,
+        }
+    )
+
+
 def register_key_tools(registry: ToolRegistry, repo_root: Path) -> None:
     job_key = _load_job_key(repo_root)
 
@@ -87,7 +108,7 @@ def register_key_tools(registry: ToolRegistry, repo_root: Path) -> None:
                 },
                 "required": list(DIMENSIONS),
             },
-            func=overall_score,
+            func=_flat_overall_score,
         )
     )
     registry.register(
