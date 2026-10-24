@@ -90,6 +90,55 @@ def extract_greeting(pack_text: str) -> str:
     return pack_text[start:end].strip()
 
 
+def extract_source_path(pack_text: str) -> Path | None:
+    """从申请包头部提取岗位文件的仓库相对路径。"""
+    match = re.search(r"\*\*Source:\*\*\s*(markets/china/jobs/inbox/.+?\.md)", pack_text)
+    return REPO_ROOT / match.group(1) if match else None
+
+
+# 旧版申请包（无 CUSTOMIZE 行）的文件夹映射
+LEGACY_FOLDERS = {
+    "03-ai-agent实习-文献知识库方向-application.md": "望石智慧-AIagent实习生-250-300元天",
+    "01-agent全栈开发实习-application.md": "迈进未来-Agent全栈实习-450-900元天",
+    "05-agent评测实习-eval-application.md": "月之暗面-Agent评测实习-350-400元天",
+    "08-ai应用开发实习-调研汇报-application.md": "待补公司-AI应用开发实习-面议",
+    "06-百度地图agent产品实习-application.md": "百度地图-Agent产品实习-面议",
+    "04-算法实习-agent评测方向-application.md": "智谱华章-算法实习agent评测-500-700元天",
+    "02-agent开发实习-清华nlp背景-application.md": "深言科技-agent开发实习-300-600元天",
+}
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
+def sync_jd_files() -> int:
+    """把每个申请包对应的原始 JD 复制进其岗位文件夹（岗位JD.md）。"""
+    failures = 0
+    for pack in sorted(EVALUATED.glob("*-application.md")):
+        text = pack.read_text(encoding="utf-8")
+        source = extract_source_path(text)
+        if source is None or not source.is_file():
+            print(f"{pack.stem[:36]} → 未找到对应 JD 文件，跳过")
+            failures += 1
+            continue
+        customize = CUSTOMIZE_RE.search(text)
+        if customize:
+            folder = json.loads(customize.group(1))["folder"]
+        elif pack.name in LEGACY_FOLDERS:
+            folder = LEGACY_FOLDERS[pack.name]
+        else:
+            print(f"{pack.stem[:36]} → 无法确定文件夹，跳过")
+            failures += 1
+            continue
+        target_dir = RESUME_ROOT / folder
+        if not target_dir.is_dir():
+            print(f"{folder[:36]} → 文件夹不存在，跳过")
+            failures += 1
+            continue
+        (target_dir / "岗位JD.md").write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+        print(f"{folder[:40]} → 岗位JD.md ✓")
+    return failures
+
+
 def materialize_pack(pack_path: Path, base_head: str, blocks: dict[str, str], base_tail: str,
                      force: bool = False) -> tuple[str, str] | None:
     """从单个申请包解析 CUSTOMIZE 参数并落盘。返回（文件夹名, 状态）。"""
@@ -120,6 +169,9 @@ def materialize_pack(pack_path: Path, base_head: str, blocks: dict[str, str], ba
     if result is None:
         return folder, "编译调优失败"
 
+    source = extract_source_path(text)
+    if source is not None and source.is_file():
+        (target_dir / "岗位JD.md").write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
     greeting = extract_greeting(text)
     (target_dir / "打招呼语.md").write_text(
         f"# 打招呼语 — {params['job_title']}\n\n"
@@ -142,6 +194,9 @@ def main(argv: list[str]) -> int:
         print(f"基版锚点缺失：{missing}")
         return 1
     head, blocks, tail = split_blocks(base_text)
+
+    if "--sync-jd" in argv:
+        return 1 if sync_jd_files() else 0
 
     force = "--force" in argv
     packs = sorted(EVALUATED.glob("*-application.md"))
