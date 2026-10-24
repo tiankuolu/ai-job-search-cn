@@ -4,6 +4,7 @@ from .analyze import run_analyze
 from .apply import run_apply
 from .rank import run_rank
 from .interview import run_interview
+from .research import run_research
 from .setup import run_setup
 
-__all__ = ["run_analyze", "run_apply", "run_rank", "run_interview", "run_setup"]
+__all__ = ["run_analyze", "run_apply", "run_rank", "run_interview", "run_setup", "run_research"]

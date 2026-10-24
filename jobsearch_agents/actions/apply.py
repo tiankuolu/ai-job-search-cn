@@ -35,12 +35,19 @@ def _input_bundle(ctx: ActionContext, job_file: Path) -> str:
     evaluation = (
         out_path.read_text(encoding="utf-8") if out_path.is_file() else "（没有已保存的评估报告）"
     )
+    research_path = EVALUATED_DIR / f"{job_file.stem}-research.md"
+    research = (
+        research_path.read_text(encoding="utf-8")
+        if research_path.is_file()
+        else "（没有公司调研简报；打招呼语中不得编造公司相关信息）"
+    )
     return (
         f"# 岗位文件路径\n{job_file.relative_to(ctx.repo_root).as_posix()}\n\n"
         f"# 候选人资料\n## candidate.md\n{profile['candidate']}\n\n"
         f"## preferences.md\n{profile['preferences']}\n\n"
         f"## evidence.md\n{profile['evidence']}\n\n"
-        f"# 已有评估报告\n{evaluation}"
+        f"# 已有评估报告\n{evaluation}\n\n"
+        f"# 公司调研简报（打招呼语的针对性素材来源，未覆盖的信息禁止编造）\n{research}"
     )
 
 

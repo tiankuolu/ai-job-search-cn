@@ -4,7 +4,7 @@ from pathlib import Path
 
 PROMPTS_DIR = Path(__file__).resolve().parent
 
-KNOWN_PROMPTS = ["analyzer", "writer", "reviewer", "ranker", "judge", "interview"]
+KNOWN_PROMPTS = ["analyzer", "writer", "reviewer", "ranker", "judge", "interview", "researcher"]
 
 
 def load_prompt(name: str) -> str:
