@@ -1,12 +1,14 @@
-# Agent 循环：请求 → 工具调用解析 → 执行 → 回填 → 终止判定（GOAL.md §2.1）。
+# Agent 循环：请求、工具调用解析、执行、回填与终止判定。
 # 模型客户端是一个可替换的协议对象：OpenAI 兼容端点与单元层的假模型走同一接口。
 
 import json
 import time
+import uuid
+from datetime import datetime, timedelta, timezone
 from typing import Any, Protocol
 
 from ..config import LLMConfig
-from .tools import ToolRegistry, ToolResult
+from .tools import ToolRegistry
 from .trace import Trace, LLMCallRecord
 
 
@@ -68,6 +70,7 @@ class Agent:
         tools: ToolRegistry | None = None,
         max_turns: int = 12,
         trace: Trace | None = None,
+        task_id: str | None = None,
     ) -> None:
         self.name = name
         self.system_prompt = system_prompt
@@ -75,20 +78,33 @@ class Agent:
         self.tools = tools or ToolRegistry()
         self.max_turns = max_turns
         self.trace = trace
+        self.task_id = task_id
 
     def run(self, user_message: str) -> str:
         """执行一次完整循环，返回最终文本回复。"""
+        current_date = datetime.now(timezone(timedelta(hours=8))).date().isoformat()
+        system_prompt = (
+            f"{self.system_prompt}\n\n当前日期（Asia/Shanghai）：{current_date}。"
+            "产物中的生成日期使用当前日期，岗位原文的保存日期单独保留。"
+        )
         messages: list[dict] = [
-            {"role": "system", "content": self.system_prompt},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
         ]
         final_text = ""
+        execution_id = uuid.uuid4().hex[:12]
+        if self.trace is not None:
+            self.trace.emit(
+                "agent.started", execution_id=execution_id, agent=self.name,
+                task_id=self.task_id, input=user_message,
+            )
         for turn in range(self.max_turns):
             record: LLMCallRecord | None = None
             started = time.time()
             if self.trace is not None:
                 record = self.trace.new_call(
-                    agent=self.name, model=self.client.model, messages=messages
+                    agent=self.name, model=self.client.model, messages=messages,
+                    execution_id=execution_id, task_id=self.task_id,
                 )
             try:
                 response = self.client.chat(messages, self.tools.schemas())
@@ -117,6 +133,11 @@ class Agent:
 
             if not tool_calls:
                 final_text = message.get("content") or ""
+                if self.trace is not None:
+                    self.trace.emit(
+                        "agent.finished", execution_id=execution_id, agent=self.name,
+                        task_id=self.task_id, output=final_text,
+                    )
                 return final_text
 
             for call in tool_calls:
@@ -133,29 +154,26 @@ class Agent:
         )
 
     def _execute_tool_call(self, call: dict, record: LLMCallRecord | None = None) -> str:
-        # DeepSeek 偶发返回缺 function 键的残缺 tool_call，回填错误让模型自行纠正
         function = call.get("function")
         if not isinstance(function, dict) or not function.get("name"):
-            return json.dumps(
-                ToolResult(
-                    output=f"malformed tool call: {json.dumps(call, ensure_ascii=False)[:200]}",
-                    is_error=True,
-                ).__dict__,
-                ensure_ascii=False,
-            )
+            raise ValueError(f"工具调用缺少 function.name：{call}")
         name = function["name"]
         raw_args = function.get("arguments") or "{}"
-        try:
-            arguments = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
-            if record is not None:
-                record.tool_calls.append({"name": name, "arguments": arguments})
-            output = self.tools.get(name).invoke(arguments)
-            return json.dumps(
-                {"output": output if isinstance(output, str) else output},
-                ensure_ascii=False,
+        arguments = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
+        detail = {"tool_id": call.get("id") or uuid.uuid4().hex[:12],
+                  "name": name, "arguments": arguments, "agent": self.name,
+                  "task_id": self.task_id,
+                  "execution_id": record.execution_id if record else None,
+                  "call_id": record.call_id if record else None}
+        if record is not None:
+            record.tool_calls.append({"name": name, "arguments": arguments})
+        if self.trace is not None:
+            self.trace.emit("tool.started", **detail)
+        started = time.monotonic()
+        output = self.tools.get(name).invoke(arguments)
+        if self.trace is not None:
+            self.trace.emit(
+                "tool.finished", **detail, output=output,
+                latency_ms=int((time.monotonic() - started) * 1000),
             )
-        except Exception as exc:
-            # 工具失败回填给模型自行纠正；两轮仍失败会在 max_turns 处崩溃
-            return json.dumps(
-                ToolResult(output=repr(exc), is_error=True).__dict__, ensure_ascii=False
-            )
+        return json.dumps({"output": output}, ensure_ascii=False)

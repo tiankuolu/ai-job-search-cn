@@ -5,6 +5,9 @@
 
 ## 默认站点
 
+平台名称和域名统一登记在 `markets/china/sources.json`。
+搜索前读取该文件，使用其中的平台和公司官网招聘页。
+
 - BOSS 直聘: `site:zhipin.com`
 - 猎聘: `site:liepin.com`
 - 智联招聘: `site:zhaopin.com`
@@ -13,13 +16,10 @@
 - 国聘: `site:iguopin.com`
 - 公司官网招聘页: 公司名 + `招聘` / `社会招聘` / `校园招聘` / `careers`
 
-领英不作为中国大陆默认搜索渠道。如用户明确寻找外企、出海岗位或英文岗位，可以把
-领英链接作为手动 JD 来源处理。
-
 ## 查询模板
 
 将 `[ROLE]`、`[CITY]`、`[DOMAIN]`、`[SKILL]` 替换为
-`markets/china/profile/preferences.md` 和用户参数中的信息。
+材料目录的 `个人资料/preferences.md` 和用户参数中的信息。
 
 ### 优先岗位
 

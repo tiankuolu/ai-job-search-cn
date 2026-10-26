@@ -1,4 +1,4 @@
-# 文件读写工具：agent 在限定根目录内读岗位、资料与写产物。
+# 文件读写工具：agent 在限定工作区内读取岗位、资料与写入产物。
 # 路径必须在根目录内（resolve 后校验），越界就地崩溃，防止 agent 读写任意位置。
 
 from pathlib import Path
@@ -41,10 +41,10 @@ def register_file_tools(registry: ToolRegistry, repo_root: Path) -> None:
     registry.register(
         Tool(
             name="read_file",
-            description="读取仓库内一个文本文件的内容（UTF-8）。",
+            description="读取工作区内一个文本文件的内容（UTF-8）。",
             parameters={
                 "type": "object",
-                "properties": {"path": {"type": "string", "description": "仓库相对路径"}},
+                "properties": {"path": {"type": "string", "description": "工作区相对路径"}},
                 "required": ["path"],
             },
             func=read_file,
@@ -53,11 +53,11 @@ def register_file_tools(registry: ToolRegistry, repo_root: Path) -> None:
     registry.register(
         Tool(
             name="write_file",
-            description="把文本内容写入仓库内一个已存在目录下的文件（覆盖写入）。",
+            description="把文本内容写入工作区内一个已存在目录下的文件（覆盖写入）。",
             parameters={
                 "type": "object",
                 "properties": {
-                    "path": {"type": "string", "description": "仓库相对路径"},
+                    "path": {"type": "string", "description": "工作区相对路径"},
                     "content": {"type": "string", "description": "完整文件内容"},
                 },
                 "required": ["path", "content"],
@@ -71,7 +71,7 @@ def register_file_tools(registry: ToolRegistry, repo_root: Path) -> None:
             description="列出一个目录下的直接子项。",
             parameters={
                 "type": "object",
-                "properties": {"path": {"type": "string", "description": "仓库相对路径"}},
+                "properties": {"path": {"type": "string", "description": "工作区相对路径"}},
                 "required": ["path"],
             },
             func=list_dir,

@@ -137,8 +137,8 @@ class TestInterview(unittest.TestCase):
 
 class TestResearch(unittest.TestCase):
     def _job(self, tmp: Path, company="望石智慧") -> Path:
-        (tmp / "markets" / "china" / "jobs" / "inbox").mkdir(parents=True, exist_ok=True)
-        jd = tmp / "markets" / "china" / "jobs" / "inbox" / "job.md"
+        (tmp / "岗位记录" / "inbox").mkdir(parents=True, exist_ok=True)
+        jd = tmp / "岗位记录" / "inbox" / "job.md"
         jd.write_text(f"# 岗位\n**Company:** {company}\n", encoding="utf-8")
         return jd
 
@@ -165,10 +165,8 @@ class TestResearch(unittest.TestCase):
             profile.mkdir(exist_ok=True)
             for name in ("candidate.md", "preferences.md", "evidence.md"):
                 (profile / name).write_text("x", encoding="utf-8")
-            original_evaluated = research_mod.EVALUATED_DIR
             original_runs = research_mod.RUNS_DIR
-            (tmp_path / "evaluated").mkdir(exist_ok=True)
-            research_mod.EVALUATED_DIR = tmp_path / "evaluated"
+            ctx.evaluated_dir.mkdir(parents=True, exist_ok=True)
             research_mod.RUNS_DIR = tmp_path / "runs"
             original_search = research_mod.search_company
             original_fetch = research_mod.fetch_page
@@ -183,7 +181,6 @@ class TestResearch(unittest.TestCase):
                 self.assertEqual(result["sources"], ["https://example.com/a"])
                 self.assertTrue((tmp_path / result["output_file"]).exists())
             finally:
-                research_mod.EVALUATED_DIR = original_evaluated
                 research_mod.RUNS_DIR = original_runs
                 research_mod.search_company = original_search
                 research_mod.fetch_page = original_fetch

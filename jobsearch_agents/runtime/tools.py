@@ -1,4 +1,4 @@
-# 工具协议：运行时对工具的唯一要求是 name + schema + 可调用函数（GOAL.md §2.1）。
+# 工具协议包含名称、参数描述与可调用函数。
 
 import inspect
 from dataclasses import dataclass, field

@@ -1,6 +1,6 @@
 """The Python tools must write UTF-8 whatever the host's default encoding is.
 
-On Windows a piped stdout (which is how Claude Code runs every tool) defaults
+On Windows a piped stdout used by command-line tools defaults
 to the ANSI code page, cp1252 on most Western installs. A tool that prints a
 posting title, company, CV line or file name outside that code page then dies
 with UnicodeEncodeError before the workflow sees any output: `/rank` could not

@@ -1,12 +1,14 @@
 # 投递状态跟踪：投递之后的闭环管理（岗位/阶段/跟进记录）。
-# 状态表存 markets/china/jobs/evaluated/delivery-status.csv（gitignore 内）。
+# 状态表与申请材料共同保存在简历目录的岗位记录中。
 
 import csv
 from datetime import date
 from pathlib import Path
 
+from .common import EVALUATED_DIR
+
 STAGES = ["未投递", "已投递", "已读", "约面", "面试中", "挂了", "offer"]
-STATUS_FILE = Path(__file__).resolve().parent.parent.parent / "markets" / "china" / "jobs" / "evaluated" / "delivery-status.csv"
+STATUS_FILE = EVALUATED_DIR / "delivery-status.csv"
 COLUMNS = ["job_file", "company", "role", "stage", "applied_date", "last_update", "note"]
 
 

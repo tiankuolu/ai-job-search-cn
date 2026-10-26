@@ -1,0 +1,12 @@
+{
+  "market": "china-mainland",
+  "platforms": [
+    { "name": "BOSS 直聘", "domain": "zhipin.com" },
+    { "name": "猎聘", "domain": "liepin.com" },
+    { "name": "智联招聘", "domain": "zhaopin.com" },
+    { "name": "前程无忧", "domain": "51job.com" },
+    { "name": "脉脉", "domain": "maimai.cn" },
+    { "name": "国聘", "domain": "iguopin.com" }
+  ],
+  "company_career_pages": true
+}

@@ -1,4 +1,4 @@
-# 动作编排入口：analyze 并行扇出 / apply 生成-审查循环 / rank 汇总排序（GOAL.md §2.3）。
+# 动作编排入口：analyze 并行分析、apply 生成与审查循环、rank 汇总排序。
 
 from .analyze import run_analyze
 from .apply import run_apply

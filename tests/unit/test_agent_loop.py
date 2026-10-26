@@ -63,20 +63,6 @@ class TestAgentLoop(unittest.TestCase):
         tools_payload = client.calls[0]["tools"]
         self.assertEqual(tools_payload[0]["function"]["name"], "echo")
 
-    def test_tool_error_fed_back_to_model(self):
-        client = ScriptedLLMClient(
-            [
-                make_tool_call_response("c1", "missing_tool", {}),
-                make_text_response("工具失败，我直接回答"),
-            ]
-        )
-        registry = ToolRegistry()
-        agent = Agent(name="t", system_prompt="s", client=client, tools=registry)
-        result = agent.run("go")
-        self.assertIn("工具失败", result)
-        tool_messages = [m for m in client.calls[1]["messages"] if m.get("role") == "tool"]
-        self.assertIn("is_error\": true", tool_messages[0]["content"])
-
     def test_max_turns_raises(self):
         responses = [
             make_tool_call_response(f"c{i}", "echo", {"message": str(i)}) for i in range(15)

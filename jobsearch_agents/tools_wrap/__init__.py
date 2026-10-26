@@ -1,4 +1,4 @@
-# 把 tools/ 下现有确定性脚本包装成 agent 工具（GOAL.md §2.3）。
+# 把 tools/ 下的确定性脚本包装成 agent 工具。
 
 from pathlib import Path
 

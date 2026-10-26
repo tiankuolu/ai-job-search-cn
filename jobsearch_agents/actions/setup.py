@@ -1,11 +1,11 @@
-# setup 动作：单次 LLM 调用把简历文本转换为资料文件格式（GOAL.md §2.3，不做成 agent）。
+# setup 动作：把简历文本转换为个人资料文件。
 
 import re
 from pathlib import Path
 
 from ..runtime import Agent, LLMClient
 from ..runtime.trace import Trace
-from .common import ActionContext, PROFILE_DIR, RUNS_DIR
+from .common import ActionContext, REPO_ROOT, RUNS_DIR
 
 SETUP_PROMPT = (
     "你是资料格式转换器。给你一份简历原文与三个资料文件模板，"
@@ -23,8 +23,11 @@ def run_setup(
     """把简历文本转换为 candidate/preferences/evidence 三个资料文件并写入 profile 目录。"""
     templates = {}
     for name in ("candidate.md", "preferences.md", "evidence.md"):
-        path = Path(ctx.repo_root) / "markets" / "china" / "profile" / name
+        path = REPO_ROOT / "markets" / "china" / "profile" / name
         templates[name] = path.read_text(encoding="utf-8")
+        target = ctx.profile_dir / name
+        if target.exists():
+            raise FileExistsError(f"个人资料已存在：{target}，请明确指定需要更新的内容")
 
     trace = Trace(RUNS_DIR, "setup")
     agent = Agent(
@@ -54,6 +57,10 @@ def run_setup(
     for name in ("candidate.md", "preferences.md", "evidence.md"):
         if name not in sections:
             raise ValueError(f"模型输出里缺少 <<<FILE:{name}>>> 分隔标记")
+
+    for name in sections:
+        if name not in templates:
+            raise ValueError(f"模型输出了未知资料文件：{name}")
 
     written = []
     for name, lines in sections.items():

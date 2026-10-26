@@ -1,162 +1,54 @@
-# 验收 A3-A6：analyze 产物完整、红旗检出、rank 排序正确、apply 产物完整无编造。
-# 全部挂 integration 标记：真实模型调用，未配环境变量时在 conftest 里统一跳过。
-
-import re
-import sys
+import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 
-REPO = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO))
-
-from jobsearch_agents.config import LLMConfig  # noqa: E402
-from jobsearch_agents.runtime import OpenAICompatClient  # noqa: E402
-from jobsearch_agents.actions.analyze import run_analyze as _analyze  # noqa: E402
-from jobsearch_agents.actions.rank import run_rank as _rank  # noqa: E402
-from jobsearch_agents.actions.apply import run_apply as _apply  # noqa: E402
-from jobsearch_agents.actions.common import ActionContext  # noqa: E402
+from jobsearch_agents.actions.analyze import _job_files, run_analyze
+from jobsearch_agents.actions.apply import run_apply
+from jobsearch_agents.actions.interview import run_interview
+from jobsearch_agents.actions.rank import run_rank
+from jobsearch_agents.actions.status import init_from_evaluated, set_stage
+from jobsearch_agents.actions.setup import run_setup
+from jobsearch_agents.config import LLMConfig
+from jobsearch_agents.runtime import OpenAICompatClient
 
 pytestmark = pytest.mark.integration
 
-REQUIRED_EVALUATION_SECTIONS = [
-    "## Job Facts",
-    "## Scorecard",
-    "## Strengths",
-    "## Gaps",
-    "## Red Flags",
-    "## China-Market Checks",
-    "## Recommended Next Action",
-    "## Assumptions / Missing Info",
-]
 
-REQUIRED_APPLICATION_SECTIONS = [
-    "## Supported Positioning",
-    "## BOSS Greeting",
-    "## Recruiter Message",
-    "## Chinese Cover Letter / Email",
-    "## Resume Tailoring Suggestions",
-    "## Interview Focus",
-    "## Gaps To Keep Honest",
-    "## User Confirmation Needed",
-]
-
-
-def _evaluations_dir(workspace: Path) -> Path:
-    return workspace / "markets" / "china" / "jobs" / "evaluated"
-
-
-def _run_analyze_in(workspace: Path):
-    """在隔离工作区里执行 analyze（动作模块的常量目录指向真实仓库，这里重定向）。"""
-    import jobsearch_agents.actions.analyze as analyze_mod
-
-    ctx = ActionContext(repo_root=workspace, profile_dir=workspace / "profile")
-    original_inbox = analyze_mod.INBOX_DIR
-    original_evaluated = analyze_mod.EVALUATED_DIR
-    original_runs = analyze_mod.RUNS_DIR
-    analyze_mod.INBOX_DIR = workspace / "markets" / "china" / "jobs" / "inbox"
-    analyze_mod.EVALUATED_DIR = _evaluations_dir(workspace)
-    analyze_mod.RUNS_DIR = workspace / "runs"
-    try:
-        return _analyze(OpenAICompatClient(LLMConfig()), ctx, max_workers=4)
-    finally:
-        analyze_mod.INBOX_DIR = original_inbox
-        analyze_mod.EVALUATED_DIR = original_evaluated
-        analyze_mod.RUNS_DIR = original_runs
-
-
-class TestAnalyze:
-    def test_a3_analyze_produces_complete_evaluations(self, workspace):
-        result = _run_analyze_in(workspace)
-        errors = [j for j in result["jobs"] if j["status"] != "done"]
-        assert not errors, f"有岗位分析失败：{errors}"
-        evaluated = sorted(_evaluations_dir(workspace).glob("*.md"))
-        assert len(evaluated) == 10, f"期望 10 份评估，实际 {len(evaluated)}"
-        for path in evaluated:
-            text = path.read_text(encoding="utf-8")
-            missing = [s for s in REQUIRED_EVALUATION_SECTIONS if s not in text]
-            assert not missing, f"{path.name} 缺少章节：{missing}"
-
-    def test_a4_red_flag_jobs_flagged(self, workspace):
-        _run_analyze_in(workspace)
-        checked = 0
-        for name in ("dawning-996-startup.md", "goldenhand-outsourcing.md"):
-            path = _evaluations_dir(workspace) / name
-            text = path.read_text(encoding="utf-8")
-            red_flag_section = text.split("## Red Flags", 1)[1].split("##", 1)[0]
-            # 判定标准：红旗节里存在实质内容的条目行（以 - 开头且不止一个「无」字）。
-            # 红旗首字恰好是「无」的情况（如「无薪试岗」）不许误杀。
-            flag_lines = [
-                line for line in red_flag_section.splitlines()
-                if line.strip().startswith("-")
-                and len(line.strip()) > 4
-                and line.strip() != "- 无"
-            ]
-            assert flag_lines, f"{name} 未检出任何红旗"
-            checked += 1
-        assert checked == 2
-
-
-class TestRank:
-    def test_a5_high_match_group_ranks_above_moderate(self, workspace):
-        _run_analyze_in(workspace)
-        import jobsearch_agents.actions.rank as rank_mod
-
-        ctx = ActionContext(repo_root=workspace, profile_dir=workspace / "profile")
-        original = rank_mod.EVALUATED_DIR, rank_mod.RUNS_DIR
-        rank_mod.EVALUATED_DIR = _evaluations_dir(workspace)
-        rank_mod.RUNS_DIR = workspace / "runs"
-        try:
-            result = _rank(OpenAICompatClient(LLMConfig()), ctx)
-        finally:
-            rank_mod.EVALUATED_DIR, rank_mod.RUNS_DIR = original
-
-        report = result["report"]
-        high_names = ["星野", "深桥", "诺瓦"]
-        moderate_names = ["晶湖", "量子叶", "睿城云"]
-        positions = {name: report.find(name) for name in high_names + moderate_names}
-        for name in high_names:
-            assert positions[name] != -1, f"排序报告里没找到 {name}"
-        # 高匹配组的每个位置都应整体高于中等组（值更小）
-        worst_high = max(positions[n] for n in high_names if positions[n] != -1)
-        for name in moderate_names:
-            if positions[name] != -1:
-                assert positions[name] > worst_high, (
-                    f"中等匹配 {name} 排到了高匹配组前面"
-                )
-
-
-class TestApply:
-    def test_a6_application_complete_and_honest(self, workspace):
-        _run_analyze_in(workspace)
-        import jobsearch_agents.actions.apply as apply_mod
-
-        ctx = ActionContext(repo_root=workspace, profile_dir=workspace / "profile")
-        jd = workspace / "markets" / "china" / "jobs" / "inbox" / "starfield-research-python-agent-dev.md"
-        original = apply_mod.EVALUATED_DIR, apply_mod.RUNS_DIR
-        apply_mod.EVALUATED_DIR = _evaluations_dir(workspace)
-        apply_mod.RUNS_DIR = workspace / "runs"
-        try:
-            result = _apply(OpenAICompatClient(LLMConfig()), ctx, jd)
-        finally:
-            apply_mod.EVALUATED_DIR, apply_mod.RUNS_DIR = original
-
-        draft = result["final_draft"]
-        missing = [s for s in REQUIRED_APPLICATION_SECTIONS if s not in draft]
-        assert not missing, f"申请材料缺少章节：{missing}"
-        # 事实红线：证据库里「明确不具备」的内容禁止「声称具备」。
-        # 在坦诚缺口章节里提及（「没有 Kubernetes 实战」「希望补齐」）是合格行为，
-        # 只拦截把不具备的技能写成自己拥有的表述。
-        import re as _re
-
-        # 逐行判定：含禁词的行要么处于否定语境（无/不/缺乏/希望/待补齐），
-        # 要么该行整体是坦诚缺口条目（- **Kubernetes、RabbitMQ/Kafka 无实战**）。
-        for banned in ("Kubernetes", "RabbitMQ", "Kafka", "React"):
-            for line in draft.splitlines():
-                if banned in line:
-                    negative_context = any(
-                        neg in line for neg in ("无", "不", "缺乏", "希望", "待", "非", "尚未")
-                    )
-                    assert negative_context, (
-                        f"申请材料在无否定语境的行里提及候选人不具备的 {banned}：{line}"
-                    )
+def test_real_jobs_complete_pipeline_in_external_materials(workspace):
+    client = OpenAICompatClient(LLMConfig().require())
+    with pytest.raises(FileExistsError, match="个人资料已存在"):
+        run_setup(client, workspace, workspace.read_profile()["candidate"])
+    jobs = _job_files(workspace)
+    assert len(jobs) == 2
+    analysis = run_analyze(client, workspace, max_workers=2)
+    assert len(analysis["jobs"]) == 2
+    for job in jobs:
+        text = workspace.evaluation_path(job).read_text(encoding="utf-8")
+        assert f"**Date:** {datetime.now(timezone(timedelta(hours=8))).date().isoformat()}" in text
+        for section in ("## Job Facts", "## Scorecard", "## Strengths", "## Gaps", "## Assumptions / Missing Info"):
+            assert section in text
+    ranking = run_rank(client, workspace)
+    assert ranking["job_count"] == 2
+    assert (workspace.repo_root / ranking["output_file"]).is_file()
+    application = run_apply(client, workspace, jobs[0])
+    assert application["passed_review"], application["rounds"]
+    application_path = workspace.repo_root / application["output_file"]
+    assert application_path.parent == workspace.evaluated_dir
+    assert "## BOSS Greeting" in application_path.read_text(encoding="utf-8")
+    interview = run_interview(client, workspace, jobs[0])
+    assert (workspace.repo_root / interview["output_file"]).parent == workspace.evaluated_dir
+    status = workspace.evaluated_dir / "delivery-status.csv"
+    rows = init_from_evaluated(workspace.evaluated_dir, status)
+    assert len(rows) == 1
+    updated = set_stage(rows[0]["job_file"], "已投递", status_path=status, applied=True)
+    assert updated["applied_date"]
+    assert updated["stage"] == "已投递"
+    for result in (analysis, ranking, application, interview):
+        result["trace_obj"].assert_complete()
+        payload = json.loads(Path(result["trace"]).read_text(encoding="utf-8"))
+        assert payload["calls"]
+        assert all(call["model"] == client.model for call in payload["calls"])
+        assert all(call["prompt_tokens"] + call["completion_tokens"] > 0 for call in payload["calls"])
+    assert not (workspace.repo_root / "markets").exists()

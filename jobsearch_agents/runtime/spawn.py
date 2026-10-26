@@ -1,4 +1,4 @@
-# spawn 工具：把「启动子 agent 并阻塞等待结果」本身做成主控 agent 的一个工具（GOAL.md §2.1）。
+# spawn 工具启动子 agent，并等待执行结果。
 
 import re
 from typing import Callable

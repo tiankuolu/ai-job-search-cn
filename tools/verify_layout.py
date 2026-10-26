@@ -2,7 +2,7 @@
 """Measure a compiled CV or cover letter's page layout, instead of eyeballing it.
 
 The compile-and-inspect loop in `05-cv-templates.md` and the verification checklist in
-CLAUDE.md already require the layout properties below. Nothing executes them: they are
+APPLICATIONS.md already require the layout properties below. Nothing executes them: they are
 checked by looking at the rendered page, which is exactly how they get missed. Each
 failure below produces a clean compile, a correct page count, and a PDF that passes
 `tools/verify_pdf.py`:
@@ -10,7 +10,7 @@ failure below produces a clean compile, a correct page count, and a PDF that pas
   orphaned entry      A moderncv \\cventry renders as a tabular, so a job entry is one
                       unbreakable block. When it does not fit, the whole entry moves to
                       the next page - or its header lands at the bottom of one page with
-                      the bullets resuming on the next. CLAUDE.md calls this "the most
+                      the bullets resuming on the next. APPLICATIONS.md calls this "the most
                       common failure".
   internal hole       The space an ejected entry leaves behind. Observed in the wild at
                       273pt, roughly 19 blank lines, mid-page, on a document whose page

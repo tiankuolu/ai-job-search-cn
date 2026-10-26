@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from ..prompts import load_prompt
 from ..runtime import Agent, LLMClient
 from ..runtime.trace import Trace
-from .common import ActionContext, EVALUATED_DIR, RUNS_DIR
+from .common import ActionContext, RUNS_DIR
 
 QUERIES = [
     "{company} 工商 全称",
@@ -174,7 +174,8 @@ def run_research(client: LLMClient, ctx: ActionContext, job_file: Path) -> dict:
     )
     brief = agent.run(material)
 
-    out_path = EVALUATED_DIR / f"{job_file.stem}-research.md"
+    ctx.evaluated_dir.mkdir(parents=True, exist_ok=True)
+    out_path = ctx.evaluated_dir / f"{ctx.job_key(job_file)}-research.md"
     out_path.write_text(
         f"# Company Research: {company} · {role}\n\n"
         f"**Sources:** {'; '.join(sources) if sources else '（无成功来源）'}\n\n{brief}",

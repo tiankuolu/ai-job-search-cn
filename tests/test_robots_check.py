@@ -80,21 +80,21 @@ class TestPathRules(unittest.TestCase):
 
 
 class TestAgentSelection(unittest.TestCase):
-    def test_named_claude_user_opt_out_is_honored(self):
-        body = "User-agent: Claude-User\nDisallow: /\n\nUser-agent: *\nAllow: /\n"
-        self.assertFalse(allowed(body, "Claude-User", "/a"))
+    def test_named_agent_opt_out_is_honored(self):
+        body = "User-agent: JobSearchAgent\nDisallow: /\n\nUser-agent: *\nAllow: /\n"
+        self.assertFalse(allowed(body, "JobSearchAgent", "/a"))
         self.assertTrue(allowed(body, "*", "/a"))
 
     def test_agent_match_is_case_insensitive(self):
-        body = "User-agent: CLAUDE-USER\nDisallow: /x\n"
-        self.assertFalse(allowed(body, "claude-user", "/x"))
+        body = "User-agent: JOBSEARCHAGENT\nDisallow: /x\n"
+        self.assertFalse(allowed(body, "jobsearchagent", "/x"))
 
     def test_falls_back_to_star_when_agent_absent(self):
-        self.assertFalse(allowed(JOBUP, "Claude-User", "/api/v1"))
+        self.assertFalse(allowed(JOBUP, "JobSearchAgent", "/api/v1"))
 
     def test_multiple_agents_share_one_ruleset(self):
-        body = "User-agent: A\nUser-agent: Claude-User\nDisallow: /z\n"
-        self.assertFalse(allowed(body, "Claude-User", "/z"))
+        body = "User-agent: A\nUser-agent: JobSearchAgent\nDisallow: /z\n"
+        self.assertFalse(allowed(body, "JobSearchAgent", "/z"))
         self.assertFalse(allowed(body, "A", "/z"))
 
 
@@ -139,7 +139,7 @@ class TestSoftTwoHundred(unittest.TestCase):
 
     def test_gate_reads_policy_as_browser_when_honest_request_is_refused(self):
         """09-web-research.md's Barclays-class recovery: the policy file itself
-        returns 403 to Claude-User and 200 to a browser, and the checker must
+        returns 403 to JobSearchAgent and 200 to a browser, and the checker must
         then read it as a browser and obey it strictly. This is gate()'s UA
         fallback loop, previously untested despite the doc's coverage claim
         (review finding F30, 2026-08-19)."""
@@ -226,7 +226,7 @@ class TestByteOrderMark(unittest.TestCase):
 
     def test_bom_does_not_hide_the_first_group(self):
         self.assertFalse(allowed(self.BODY, "*", "/x"))
-        self.assertFalse(allowed(self.BODY, "Claude-User", "/x"))
+        self.assertFalse(allowed(self.BODY, "JobSearchAgent", "/x"))
 
     def test_gate_obeys_a_policy_saved_with_a_bom(self):
         import robots_check

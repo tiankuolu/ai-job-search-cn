@@ -74,13 +74,13 @@ class TestApplyRoundFlow(unittest.TestCase):
         tmp_path = Path(tmp) if tmp else Path(tmp_ctx.__enter__())
         try:
             # 在临时目录里搭出仓库结构与资料
-            (tmp_path / "markets" / "china" / "jobs" / "inbox").mkdir(parents=True, exist_ok=True)
-            (tmp_path / "markets" / "china" / "jobs" / "evaluated").mkdir(parents=True, exist_ok=True)
+            (tmp_path / "岗位记录" / "inbox").mkdir(parents=True, exist_ok=True)
+            (tmp_path / "岗位记录" / "evaluated").mkdir(parents=True, exist_ok=True)
             profile_dir = tmp_path / "profile"
             profile_dir.mkdir(exist_ok=True)
             for name in ("candidate.md", "preferences.md", "evidence.md"):
                 (profile_dir / name).write_text(f"# {name}\n虚构资料", encoding="utf-8")
-            jd = tmp_path / "markets" / "china" / "jobs" / "inbox" / "acme-dev.md"
+            jd = tmp_path / "岗位记录" / "inbox" / "acme-dev.md"
             jd.write_text("# 岗位 @ 公司\n\n职责与要求", encoding="utf-8")
 
             ctx = ActionContext(repo_root=tmp_path, profile_dir=profile_dir)

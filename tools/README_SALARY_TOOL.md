@@ -2,9 +2,9 @@
 
 ## What is this?
 
-The salary lookup tool (`salary_lookup.py`) lets you benchmark company salaries against a baseline from your own data. It's used during the `/apply` workflow to show how a company's compensation compares to market rates.
+The standalone salary lookup tool (`salary_lookup.py`) lets you benchmark company salaries against a baseline from your own data. Run it directly when a task needs that comparison.
 
-**This tool is optional.** If you don't have salary data, the salary step is simply skipped during `/apply`.
+The tool requires an explicitly supplied salary dataset. The current Chinese internship workflow reads compensation from the saved JD and confirmed candidate preferences.
 
 ## How it works
 
@@ -119,6 +119,6 @@ python3 salary_lookup.py --validate      # pre-flight check your salary_data.jso
 ## Important notes
 
 - The data file (`salary_data.json`) is **excluded from git** (see `.gitignore`). Your salary data may be proprietary or confidential.
-- If the data file is missing, `salary_lookup.py` exits with a helpful error message and the `/apply` workflow skips the salary benchmark step.
+- If the data file is missing, `salary_lookup.py` exits with an error message.
 - The fuzzy matcher handles Danish company name variations: legal suffixes, Nordic characters, anglicized spellings, and partial matches.
 - `--validate` checks your data file for malformed category values and duplicate company names and prints a report, without performing a lookup.

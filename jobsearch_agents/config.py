@@ -1,4 +1,4 @@
-# 运行时配置：全部来自环境变量，端点切换零改码（GOAL.md §2.2）。
+# 运行时配置从环境变量读取。
 
 import os
 
@@ -29,8 +29,8 @@ class LLMConfig:
         return self
 
 
-# 评审层达标阈值（GOAL.md A7）
+# 评审层达标阈值。
 JUDGE_THRESHOLD = float(os.environ.get("JOBSEARCH_JUDGE_THRESHOLD", "0.8"))
-# 自改循环预算（GOAL.md §4 护栏 3）
+# 自改循环预算。
 LOOP_MAX_ROUNDS = int(os.environ.get("JOBSEARCH_LOOP_MAX_ROUNDS", "10"))
 LOOP_TOKEN_BUDGET = int(os.environ.get("JOBSEARCH_LOOP_TOKEN_BUDGET", "5000000"))

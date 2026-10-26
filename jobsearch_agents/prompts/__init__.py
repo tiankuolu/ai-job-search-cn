@@ -1,4 +1,4 @@
-# Prompt 加载：从本目录读取 markdown 文件作为 system prompt（GOAL.md §2.4）。
+# 从本目录读取 Markdown 文件作为模型提示词。
 
 from pathlib import Path
 
