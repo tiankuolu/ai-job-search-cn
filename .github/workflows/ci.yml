@@ -19,6 +19,7 @@ jobs:
       - run: python -m pip install -r requirements-dev.txt
       - run: python tools/lint_skills.py
       - run: python tools/security_guards.py
+      - run: mkdir -p .artifacts
       - run: python -m pytest tests/test_workspace_layout.py -q --basetemp=.artifacts/pytest
 
   frontend:
