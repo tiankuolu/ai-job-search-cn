@@ -1,165 +1,87 @@
-# 中国实习求职 Agent
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="中国实习求职 Agent：从岗位原文，到可编辑简历与申请记录。">
+</p>
 
-[![CI](https://github.com/tiankuolu/ai-job-search-cn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/tiankuolu/ai-job-search-cn/actions/workflows/ci.yml)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](SETUP.md)
-[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](frontend/package.json)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+<p align="center">
+  <a href="https://github.com/tiankuolu/ai-job-search-cn/actions/workflows/ci.yml"><img src="https://github.com/tiankuolu/ai-job-search-cn/actions/workflows/ci.yml/badge.svg?branch=main" alt="GitHub 自动检查状态"></a>
+  <a href="SETUP.md"><img src="https://img.shields.io/badge/Python-3.11-526448?logo=python&amp;logoColor=white" alt="Python 3.11"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-526448" alt="MIT 许可"></a>
+</p>
 
-把岗位原文、项目事实、简历修改与申请记录放进同一个工作台。模型负责读取资料、分析岗位、编写和审查材料；你可以直接编辑简历，核对结果后确认发送。
+<p align="center">
+  <a href="#操作演示">看演示</a> · <a href="#快速开始">交给智能体安装</a> · <a href="#安装前准备">准备配置</a> · <a href="SETUP.md">手动启动</a> · <a href="#参与改进">提交意见</a>
+</p>
+
+这是一个在本地运行的实习求职工作台。保存完整 JD，结合真实项目事实准备申请材料，直接编辑简历，核对后确认申请；岗位、材料版本与申请结果一起保存。
 
 ## 操作演示
 
-[![工作台操作演示节选](docs/media/workbench-preview.gif)](docs/demo.md)
+[![工作台处理结果：JD 字段、岗位原文、分析依据与材料选项](docs/media/workbench-preview.gif)](docs/demo.md)
 
-上方直接展示字段提取、岗位保存和分析结果。**[下载 MP4（22 秒，含中文字幕）](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [静态截图](docs/media/workbench-preview.png) · [演示内容与录制说明](docs/demo.md)
+**[下载二十二秒演示视频](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [查看静态截图](docs/media/workbench-preview.png) · [录制说明](docs/demo.md)
 
-视频取自真实工作台录屏，展示公开 JD 的字段提取结果、保存后的岗位原文、模型分析结果与材料选项。演示使用空白候选人档案，个人信息与招聘账号保持私密。
-
-## 可以完成什么
-
-- **收集岗位**：手动填写 JD，导入 Markdown、PDF 或图片，或解析招聘链接；保留完整原文与来源，核对后保存。
-- **分析匹配**：结合当前资料和项目事实，区分岗位要求、相关证据与缺失信息；同一份 JD 的分析结果可以复用。
-- **编写定制材料**：按岗位选择项目与表达重点，通过生成、审查和修改循环准备中文简历及打招呼语；按需生成英文简历、项目职责与描述、自我描述。
-- **编辑与导出**：直接修改 HTML 简历，自动保存正文；保留历史版本，导出 HTML、A4 PDF 与 PNG，检查文字、链接和页面边界。
-- **管理多个机会**：按公司、岗位和申请状态筛选；不同岗位的材料任务可以并发，同一岗位的生成、编辑与投递互相保护。
-- **确认申请与跟进**：通过本地招聘服务检查登录与发送结果，区分已投递和待核实；同一公司同名岗位的重复联系会被阻止。
-
-命令行另提供岗位排序、公司调研、面试准备、故事库和练习评分。Codex、ZCode 可以通过项目技能读取相同资料并执行工作流。
+演示来自真实页面和模型请求，使用公开岗位与空白候选人档案，展示字段提取、岗位保存和分析结果。
 
 ## 如何处理一份申请
 
-1. 保存完整 JD，核对公司、岗位和来源。
-2. 读取本人资料与项目事实，检查匹配依据。
-3. 按岗位生成简历与沟通材料，审查事实、贡献和指标条件。
-4. 查看生成结果，直接修改简历与打招呼语，保留每次版本。
-5. 导出并核对文件，再确认申请；根据实际回执记录结果。
+1. **收集岗位**：填写 JD，导入 Markdown、PDF 或图片，或解析招聘链接，核对公司、职责与来源。
+2. **按事实准备材料**：读取本人资料与项目证据，分析岗位要求，经过生成、审查与修改，准备简历和打招呼语。
+3. **编辑并确认**：直接修改 HTML 简历，自动保存并保留版本，导出 PDF、HTML 和 PNG；按需生成英文简历、项目介绍与自我描述。
+4. **申请并记录结果**：确认材料与平台登录状态后提交，根据实际回执区分已投递和待核实，防止同一公司同名岗位重复联系。
 
-生成稿会检查 A4 单页、页面占用和最小字号。人工编辑后的正文按当前内容直接导出，保留编辑结果，并检查导出文件与当前版本一致。
+工作台支持按公司、岗位与申请状态筛选。不同岗位的材料任务可以并发，同一岗位的生成、编辑与投递互相保护。命令行还提供岗位排序、公司调研、面试准备、故事库和练习评分。
 
-## 复制给智能体，一键安装
+## 快速开始
 
-将下面整段提示词交给你使用的编码智能体。智能体负责检查环境、安装依赖、配置目录、启动服务和实际验证；需要你填写的内容见下方配置清单。
+把下面整段提示词交给你使用的编码智能体。它会检查环境、安装依赖、配置资料并启动验证；模型与个人资料由你提供。
 
 ```text
-请帮我安装、配置并运行 https://github.com/tiankuolu/ai-job-search-cn 。
-我授权你在本机创建项目工作目录、安装所需依赖并启动本地服务。
+请安装并运行 https://github.com/tiankuolu/ai-job-search-cn 。
+我授权你创建本地工作目录、安装所需依赖并启动服务。
 
-1. 读取 README.md、AGENTS.md、SETUP.md、docs/profile-format.md、
-   docs/automatic-delivery.md 及启动脚本。检查已有目录、软件与配置，
-   保留已有个人资料和手动修改。
-2. 检查 Git、Windows PowerShell、Python 3.11、Node.js 22、npm、
-   Edge 或 Chrome、Playwright 和 Poppler。使用系统包管理器及项目依赖文件
-   安装缺少的软件，运行版本命令确认可用。安装 requirements-web.txt，
-   执行 npm --prefix frontend ci 和 npm --prefix frontend run build。
-3. 在代码目录外创建个人工作区，用 JOBSEARCH_WORKSPACE_ROOT 和
-   JOBSEARCH_MATERIALS_ROOT 指定实际位置。从仓库复制缺少的空白资料与规则，
-   依据我提供的简历、偏好和项目证据填写资料。姓名、联系方式、教育、到岗安排
-   与贡献归属需要有我的真实资料支持。已有文件保持当前内容。
-4. 配置项目事实档案/index.json 和引用的 Markdown，使用稳定事实编号，
-   记录真实来源、本人动作、验证条件与结果。缺少的个人信息、项目证据和偏好
-   集中向我询问，保持未确认内容为空，并按 ResumePlan 与 ResumePreferences
-   的当前字段核对简历生成所需资料。
-5. 复用我已经配置的 OpenAI 兼容模型服务；缺少时集中询问接口地址、模型名称
-   与密钥的安全输入方式。配置 JOBSEARCH_LLM_BASE_URL、JOBSEARCH_LLM_MODEL、
-   JOBSEARCH_LLM_API_KEY，检查工具调用和 JSON 输出。密钥只保存在本地受保护
-   的配置中，聊天回复与日志不得输出密钥值。
-6. 配置 JDK 21、Gradle 和兼容 /api/jobsearch/* 的 get_jobs 服务，
-   按 start-integrated.ps1 实际解析的目录检查源码、发行版数据库和构建产物。
-   使用 tools/setup_delivery.py 保存 Java、Gradle、浏览器和 pdftoppm 路径。
-   缺少适配服务或真实数据库时，列出需要我提供的内容及受影响功能，
-   继续完成其他可以真实验证的安装步骤。
-7. 启动工作台与已配置的本地服务，实际检查页面、接口、模型响应和公开示例
-   JD 导入。运行技能检查、隐私检查、相关测试和前端构建，修复安装与启动错误。
-   招聘平台需要登录时，由我完成登录，再读取实际登录状态。
-8. 提供本地打开地址、实际安装版本、个人资料目录、已验证功能与待补充配置。
-   个人资料、密钥、Cookie、数据库和运行记录保留在本地。
-   公开发布、发送招聘消息与提交申请需要我另外明确授权。
+读取仓库 AGENTS.md、SETUP.md 和 docs/agent-install.md，
+按完整安装流程检查环境、模型连接、个人资料与项目事实档案。
+保留已有文件；缺少的个人信息、API 配置和依赖位置集中向我询问。
+个人经历和贡献只能采用我提供的真实依据，密钥不得出现在回复或日志中。
+
+实际启动工作台，验证页面、公开示例 JD 导入、模型请求和相关检查，
+修复发现的问题。完成后给出打开地址、配置位置和真实验证结果。
+个人资料与运行数据保留在本地，发布与投递按我的明确授权执行。
 ```
 
-## 运行依赖
+[完整安装提示词](docs/agent-install.md) · [手动安装与运行](SETUP.md) · [首次申请操作](docs/first-application.md)
 
-- **系统与版本管理**：Windows PowerShell、Git；当前启动脚本使用 Windows 工具路径。
-- **Python 3.11**：安装 `requirements-web.txt`，其中包含核心依赖与网页服务、文档解析、OCR、模型调用和浏览器导出所需的库。
-- **Node.js 22 与 npm**：安装 `frontend/package-lock.json` 锁定的依赖，构建 React 工作台。
-- **Edge 或 Chrome、Playwright**：用于网页操作和真实浏览器 PDF 导出；在配置中选择 `msedge` 或 `chrome`。
-- **Poppler**：提供 `pdftoppm`，用于 PDF 预览图生成。
-- **模型服务**：OpenAI 兼容接口、可用模型与 API Key；工具调用和 JSON 输出能力需要实际验证。
-- **招聘浏览器服务**：完整搜索与投递流程需要 JDK 21、Gradle，以及兼容 `/api/jobsearch/*` 的 `get_jobs` 服务及其发行版数据库。该服务单独部署，目录按 `start-integrated.ps1` 中的 `../../get_jobs` 解析。接口与配置要求见 [自动搜索与简历投递](docs/automatic-delivery.md)。
+## 安装前准备
 
-## 需要你配置的内容
+### 模型与个人资料
 
-- **模型连接**：`JOBSEARCH_LLM_BASE_URL`、`JOBSEARCH_LLM_MODEL`、`JOBSEARCH_LLM_API_KEY`。
-- **个人工作区**：`JOBSEARCH_WORKSPACE_ROOT` 指向工作区，`JOBSEARCH_MATERIALS_ROOT` 指向个人求职材料目录，均可使用仓库外的已有目录。
-- **个人资料 `candidate.md`**：姓名、手机、邮箱、所在城市、GitHub 或作品集链接，以及真实教育时间、学校、学位与专业。GPA 按原始资料填写，未提供时留空。
-- **求职偏好 `preferences.md`**：岗位方向、城市、薪资与工作制度偏好，以及每周可到岗天数、可持续实习月数、可到岗时间；按需要配置技能类别、固定荣誉和指定经历的使用条件。
-- **成果依据**：`evidence.md` 记录成果与来源；`个人资料/项目事实档案/index.json` 及对应 Markdown 记录项目、个人贡献、稳定事实编号和实际验证结果。字段要求见 [资料格式](docs/profile-format.md)。
-- **本地工具与招聘服务**：通过 `tools/setup_delivery.py` 配置 Java、Gradle、浏览器与 `pdftoppm` 的真实位置，生成本地 `runs/delivery/settings.json`；招聘平台账号由本人完成登录。
+- **模型连接**：提供 OpenAI 兼容接口地址、模型名称与 API Key。程序通过 `JOBSEARCH_LLM_BASE_URL`、`JOBSEARCH_LLM_MODEL`、`JOBSEARCH_LLM_API_KEY` 读取配置；模型需要支持工具调用和 JSON 输出。
+- **个人资料 `candidate.md`**：姓名、手机、邮箱、城市、GitHub 或作品集链接，以及真实教育经历；GPA 按原始资料填写，未提供时留空。
+- **求职偏好 `preferences.md`**：岗位方向、城市、薪资与工作制度偏好，以及每周可到岗天数、可持续实习月数和可到岗时间。
+- **成果依据**：`evidence.md` 保存成果与来源；`个人资料/项目事实档案/index.json` 及其引用的 Markdown 保存项目贡献、稳定事实编号和验证结果。
 
-当前简历生成格式需要至少两个相关项目、两条有依据的技能，以及至少一条真实的荣誉、竞赛或语言条目。固定荣誉与语言内容配置在 `preferences.md` 的 `resume.fixed_awards`，各项事实均使用本人确认的资料。
+当前简历格式需要至少两个相关项目、两条有依据的技能，以及至少一条真实的荣誉、竞赛或语言条目。固定荣誉与语言条目配置在 `preferences.md` 的 `resume.fixed_awards`；其他技能和经历偏好见 [资料格式](docs/profile-format.md)。
 
-仓库只提供空白资料模板。个人信息与项目证据需要你提供，智能体会按实际资料完成整理与配置。
+个人材料默认保存在仓库同级的 `jobsearch-workspace/求职材料/`。已有资料可以通过 `JOBSEARCH_WORKSPACE_ROOT` 和 `JOBSEARCH_MATERIALS_ROOT` 指定位置，安装过程保留当前文件。
 
-## 手动启动
+### 运行环境
 
-以下命令使用 Windows PowerShell。需要 Python 3.11、Node.js 22，以及用于简历导出的 Edge 或 Chrome。
+- **基础环境**：Windows PowerShell、Git、Python 3.11、Node.js 22 与 npm。Python 依赖来自 `requirements-web.txt`，前端依赖由 `frontend/package-lock.json` 锁定。
+- **文档与浏览器工具**：Edge 或 Chrome、Playwright、Poppler 的 `pdftoppm`，用于网页操作、浏览器 PDF 导出与预览图生成。
+- **完整招聘流程**：另外需要 JDK 21、Gradle，以及兼容 `/api/jobsearch/*` 的 `get_jobs` 本地服务及其发行版数据库。源码目录按 `start-integrated.ps1` 中的 `../../get_jobs` 解析，安装时核对实际位置。
 
-### 安装项目
+本地工具通过 `tools/setup_delivery.py` 配置，招聘账号由本人完成登录。接口、目录与启动步骤见 [招聘服务配置](docs/automatic-delivery.md)。
 
-```powershell
-git clone https://github.com/tiankuolu/ai-job-search-cn.git
-cd ai-job-search-cn
-py -3.11 -m pip install -r requirements-web.txt
-npm --prefix frontend ci
-npm --prefix frontend run build
-```
+## 数据与隐私
 
-### 准备本地资料
+个人档案、求职材料和招聘登录状态保存在本地。模型分析会把当前任务所需资料发送给你配置的模型服务，使用前请确认服务商与处理范围。
 
-按 [SETUP.md](SETUP.md) 创建工作区，复制空白资料模板并填写真实信息；按 [资料格式](docs/profile-format.md) 配置项目事实档案。
+`runs/` 保存模型输入输出、任务记录和材料版本，`.artifacts/` 保存验证中间文件。这些目录与密钥、Cookie、浏览器用户目录、数据库和个人材料均受到 Git 忽略保护；提交检查还会阻止已跟踪的私人配置与运行资料进入仓库。
 
-- `candidate.md`：身份、联系方式和教育等个人信息。
-- `preferences.md`：岗位方向、城市、到岗安排与材料偏好。
-- `evidence.md`：可核验成果与来源。
-- `项目事实档案/index.json` 及引用的 Markdown：项目事实与稳定编号。
+## 开发与实现
 
-默认工作区为仓库同级的 `jobsearch-workspace/`，个人材料保存在其中的 `求职材料/`。已有资料可以通过 `JOBSEARCH_WORKSPACE_ROOT` 和 `JOBSEARCH_MATERIALS_ROOT` 指定位置。
-
-### 配置模型与启动界面
-
-程序使用 OpenAI 兼容接口。按服务商提供的值填写接口地址与模型名称，密钥输入会隐藏：
-
-```powershell
-$env:JOBSEARCH_LLM_BASE_URL = Read-Host 'OpenAI 兼容接口地址'
-$env:JOBSEARCH_LLM_MODEL = Read-Host '模型名称'
-$env:JOBSEARCH_LLM_API_KEY = [System.Net.NetworkCredential]::new('', (Read-Host '模型 API Key' -AsSecureString)).Password
-.\start-web.ps1 -SkipBuild
-```
-
-打开 [本地工作台](http://127.0.0.1:8765)。首次安装也可以使用 `.\start-web.ps1 -InstallDependencies` 完成 Python 依赖安装与前端构建。
-
-完整搜索、材料生成和投递流程需要配置兼容的 `get_jobs` 本地服务。所需 Java 21、Gradle、浏览器、PDF 工具及服务目录的配置见 [自动搜索与简历投递](docs/automatic-delivery.md)，配置完成后使用 `.\start-integrated.ps1 -Build` 启动。
-
-### 命令行与助手入口
-
-```powershell
-py -3.11 -m jobsearch_agents --help
-py -3.11 -m jobsearch_agents analyze
-py -3.11 -m jobsearch_agents apply '求职材料/公司-岗位/岗位JD.md'
-py -3.11 -m jobsearch_agents rank
-py -3.11 -m jobsearch_agents status
-```
-
-命令行岗位路径相对工作区解析，也可以填写完整路径。简历制作命令中的 `--job` 和 `--output` 使用实际文件位置：
-
-```powershell
-py -3.11 -m tools.make_resume --job '<岗位JD完整路径>' --output '<尚不存在的输出目录>'
-```
-
-- [首次申请操作](docs/first-application.md)
-- [Codex 使用说明](docs/codex.md) / [ZCode 使用说明](docs/zcode.md)
-- [助手技能入口](.agents/skills/china-job-search/SKILL.md)
-
-## 程序结构
+<details>
+<summary>查看程序结构、常用命令与开发检查</summary>
 
 ```mermaid
 flowchart LR
@@ -173,21 +95,26 @@ flowchart LR
     BRIDGE --> PLATFORM[招聘平台]
 ```
 
-- `frontend/`：React、TypeScript 工作台，岗位与材料编辑界面。
+- `frontend/`：React、TypeScript 工作台和材料编辑界面。
 - `jobsearch_agents/actions/`：分析、申请、排序、调研与面试动作。
 - `jobsearch_agents/runtime/`：模型调用、工具执行、并行任务与调用记录。
-- `jobsearch_agents/delivery/`：岗位导入、材料生成、导出、版本和投递管理。
-- `markets/china/`：中文资料模板、写作规范和助手工作流。
+- `jobsearch_agents/delivery/`：岗位导入、材料生成、导出、版本与投递管理。
+- `markets/china/`：中文资料模板、写作规范与助手工作流。
 - `third_party/asu-skills/`：固定版本的简历规范、模板与编辑组件。
-- `tests/`、`tools/`：程序验证与检查工具。
 
-## 本地数据与隐私
+常用命令：
 
-个人档案、求职材料和招聘登录状态保存在本地。模型分析会读取当前任务所需资料并发送给你配置的模型服务；使用前应确认服务商及处理范围。
+```powershell
+py -3.11 -m jobsearch_agents --help
+py -3.11 -m jobsearch_agents analyze
+py -3.11 -m jobsearch_agents apply '求职材料/公司-岗位/岗位JD.md'
+py -3.11 -m jobsearch_agents rank
+py -3.11 -m jobsearch_agents status
+```
 
-`runs/` 会保存模型输入输出、任务记录与材料版本；`.artifacts/` 保存验证中间文件。它们与密钥、Cookie、浏览器用户目录、数据库和个人材料均受到 Git 忽略保护。提交检查还会阻止已跟踪的私人配置与运行资料进入仓库。
+命令行岗位路径相对工作区解析，也可以提供完整路径。完整简历制作命令见 [SETUP.md](SETUP.md)。
 
-## 开发检查
+开发检查：
 
 ```powershell
 New-Item -ItemType Directory -Path .artifacts -Force
@@ -199,18 +126,18 @@ npm --prefix frontend test
 npm --prefix frontend run build
 ```
 
-真实模型、浏览器和资料验证需要相应本地配置，执行要求见项目 [AGENTS.md](AGENTS.md)。
+真实模型和浏览器验证需要相应的本地配置，执行要求见 [AGENTS.md](AGENTS.md)。[Codex](docs/codex.md)、[ZCode](docs/zcode.md) 也可以通过 [项目技能](.agents/skills/china-job-search/SKILL.md) 使用相同的资料与工作流。
 
-## 记得 Star，欢迎一起改进
+</details>
 
-如果这个项目对你有帮助，记得点击仓库右上角的 **Star ⭐**，也方便以后找到它。
+## 参与改进
 
-欢迎在 [Issues 提交使用意见、问题和功能建议](https://github.com/tiankuolu/ai-job-search-cn/issues)，也欢迎通过 [Pull Request](https://github.com/tiankuolu/ai-job-search-cn/pulls) 改进代码、文档或演示。反馈问题时请说明操作步骤、运行环境、预期与实际结果，分享截图和日志前清除个人信息及密钥。
+如果这个项目对你有帮助，记得点击右上角的 **Star ⭐**，也方便以后找到它。
 
-欢迎提交意见，一起让这个项目变得更好。
+欢迎通过 [Issues](https://github.com/tiankuolu/ai-job-search-cn/issues) 提交使用意见、问题与功能建议，也欢迎通过 [Pull Request](https://github.com/tiankuolu/ai-job-search-cn/pulls) 改进代码、文档或演示。反馈时请附上操作步骤、运行环境、预期与实际结果，分享截图和日志前清除个人信息与密钥。
+
+一起让这个项目变得更好。
 
 ## 来源与许可
 
-基于 [MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search) 开发，保留其 [MIT License](LICENSE)。简历规范与默认模板引入自 [Hisn00w/ASu-skills](https://github.com/Hisn00w/ASu-skills)，固定版本及许可见 [来源说明](third_party/asu-skills/SOURCE.md) 和 [许可全文](third_party/asu-skills/LICENSE)。
-
-`get_jobs` 作为独立本地服务，通过 HTTP 提供招聘浏览器能力，遵循其原项目许可。
+基于 [MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search) 开发，保留其 [MIT License](LICENSE)。简历规范与模板引入自 [Hisn00w/ASu-skills](https://github.com/Hisn00w/ASu-skills)，固定版本和许可见 [来源说明](third_party/asu-skills/SOURCE.md) 与 [许可全文](third_party/asu-skills/LICENSE)。`get_jobs` 作为独立本地服务，遵循其原项目许可。
