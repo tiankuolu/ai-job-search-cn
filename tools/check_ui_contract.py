@@ -46,7 +46,7 @@ def inspect(root: Path, app: str) -> dict:
     files = {}
     for name in FILES:
         path = style_dir / name
-        files[name] = digest(path.read_bytes())
+        files[name] = digest(path.read_text(encoding="utf-8").encode("utf-8"))
     defined = set()
     for name in FILES:
         defined.update(css_classes(style_dir / name))
