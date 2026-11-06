@@ -2,18 +2,17 @@
 
 [![工作台操作演示节选](media/workbench-preview.gif)](media/workbench-demo.mp4)
 
-[下载完整 MP4](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4) · [静态截图](media/workbench-preview.png)
+[下载结果演示 MP4](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4) · [静态截图](media/workbench-preview.png)
 
-录制日期：2026-11-06。时长约一分二十六秒，含中文字幕。
-上方动画为完整视频的操作节选，可以直接在 README 与此页查看。
+录制日期：2026-11-06。时长约二十二秒，含中文字幕。
+视频与上方动画展示实际处理结果，模型等待片段已经剪除。
 
 ## 视频内容
 
-- 打开真实的 React 与 FastAPI 工作台。
-- 导入 Markdown 格式的公开岗位信息，调用真实模型提取字段。
-- 核对公司、岗位、地点与任职条件，保存到岗位列表。
-- 查看完整岗位原文及来源，再调用模型分析当前资料与岗位的关系。
-- 在空白候选人档案下展示资料缺失，按岗位筛选并选择后续材料类型。
+- JD 字段提取结果：公司、岗位、地点与任职条件。
+- 岗位保存结果：完整职责与原始招聘来源。
+- 模型分析结果：已有证据与待补充资料。
+- 材料选项：中英文简历、项目职责与描述、自我描述。
 
 本段录屏展示岗位导入与分析。简历生成、编辑、导出与投递的使用方法见 [工作流说明](automatic-delivery.md)。
 

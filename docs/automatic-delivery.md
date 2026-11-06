@@ -22,7 +22,9 @@
 
 ## 运行
 
-相邻目录 `项目/get_jobs` 运行 Java 浏览器服务。Java 21、已安装的 Chrome 或 Edge、Python 3.11、Playwright、Poppler 和 Node.js 为实际依赖。
+招聘浏览器服务需要提供兼容的 `/api/jobsearch/*` 接口。`start-integrated.ps1` 从本项目目录解析 `../../get_jobs` 作为服务源码目录；安装时核对该路径与实际目录。Java 21、Gradle、已安装的 Chrome 或 Edge、Python 3.11、Playwright、Poppler 和 Node.js 为实际依赖。
+
+该服务需要提供浏览器登录状态、公开岗位读取、指定岗位原文、材料发送和结果回执接口，并使用 `X-Jobsearch-Token` 校验本地请求。当前仓库通过 HTTP 调用该服务；安装完整招聘流程时需要同时提供具有这些接口的适配服务源码和发行版数据库。
 
 在本项目目录安装 `requirements-web.txt`。通过下面的命令配置实际程序位置：
 
@@ -31,7 +33,7 @@ py -3.11 tools/setup_delivery.py --java-home '<Java 21 根目录>' --gradle '<gr
 .\start-integrated.ps1 -Build
 ```
 
-首次运行前将 get_jobs 发行版提供的空数据库保存为 `项目/get_jobs/db/getjobs.db`。模型配置使用已有 `JOBSEARCH_LLM_*`，继续读取候选人资料与基版。Java 浏览器服务监听 `127.0.0.1:9527`，求职工作台监听 `127.0.0.1:8765`。
+首次运行前将 get_jobs 发行版提供的空数据库保存为服务源码目录中的 `db/getjobs.db`。模型配置使用已有 `JOBSEARCH_LLM_*`，继续读取候选人资料与基版。Java 浏览器服务监听 `127.0.0.1:9527`，求职工作台监听 `127.0.0.1:8765`。
 
 通过 `JOBSEARCH_LLM_*` 配置模型。使用 DeepSeek 配置文件时，设置 `JOBSEARCH_DEEPSEEK_ENV_FILE`，程序从中读取 `DEEPSEEK_BASE_URL` 与 `DEEPSEEK_API_KEY`。密钥保留在本地配置中。岗位匹配和结构化简历生成启用模型的 JSON Output，随后使用 Pydantic 校验字段。
 

@@ -11,9 +11,9 @@
 
 [![工作台操作演示节选](docs/media/workbench-preview.gif)](docs/demo.md)
 
-上方为真实录屏节选。**[下载完整 MP4（86 秒，含中文字幕）](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [静态截图](docs/media/workbench-preview.png) · [演示内容与录制说明](docs/demo.md)
+上方直接展示字段提取、岗位保存和分析结果。**[下载 MP4（22 秒，含中文字幕）](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [静态截图](docs/media/workbench-preview.png) · [演示内容与录制说明](docs/demo.md)
 
-视频录制真实工作台：导入公开 JD、调用模型提取字段、保存岗位、查看原文、分析资料缺失和选择后续材料。演示使用空白候选人档案，个人信息与招聘账号保持私密。
+视频取自真实工作台录屏，展示公开 JD 的字段提取结果、保存后的岗位原文、模型分析结果与材料选项。演示使用空白候选人档案，个人信息与招聘账号保持私密。
 
 ## 可以完成什么
 
@@ -36,7 +36,70 @@
 
 生成稿会检查 A4 单页、页面占用和最小字号。人工编辑后的正文按当前内容直接导出，保留编辑结果，并检查导出文件与当前版本一致。
 
-## 快速启动
+## 复制给智能体，一键安装
+
+将下面整段提示词交给你使用的编码智能体。智能体负责检查环境、安装依赖、配置目录、启动服务和实际验证；需要你填写的内容见下方配置清单。
+
+```text
+请帮我安装、配置并运行 https://github.com/tiankuolu/ai-job-search-cn 。
+我授权你在本机创建项目工作目录、安装所需依赖并启动本地服务。
+
+1. 读取 README.md、AGENTS.md、SETUP.md、docs/profile-format.md、
+   docs/automatic-delivery.md 及启动脚本。检查已有目录、软件与配置，
+   保留已有个人资料和手动修改。
+2. 检查 Git、Windows PowerShell、Python 3.11、Node.js 22、npm、
+   Edge 或 Chrome、Playwright 和 Poppler。使用系统包管理器及项目依赖文件
+   安装缺少的软件，运行版本命令确认可用。安装 requirements-web.txt，
+   执行 npm --prefix frontend ci 和 npm --prefix frontend run build。
+3. 在代码目录外创建个人工作区，用 JOBSEARCH_WORKSPACE_ROOT 和
+   JOBSEARCH_MATERIALS_ROOT 指定实际位置。从仓库复制缺少的空白资料与规则，
+   依据我提供的简历、偏好和项目证据填写资料。姓名、联系方式、教育、到岗安排
+   与贡献归属需要有我的真实资料支持。已有文件保持当前内容。
+4. 配置项目事实档案/index.json 和引用的 Markdown，使用稳定事实编号，
+   记录真实来源、本人动作、验证条件与结果。缺少的个人信息、项目证据和偏好
+   集中向我询问，保持未确认内容为空，并按 ResumePlan 与 ResumePreferences
+   的当前字段核对简历生成所需资料。
+5. 复用我已经配置的 OpenAI 兼容模型服务；缺少时集中询问接口地址、模型名称
+   与密钥的安全输入方式。配置 JOBSEARCH_LLM_BASE_URL、JOBSEARCH_LLM_MODEL、
+   JOBSEARCH_LLM_API_KEY，检查工具调用和 JSON 输出。密钥只保存在本地受保护
+   的配置中，聊天回复与日志不得输出密钥值。
+6. 配置 JDK 21、Gradle 和兼容 /api/jobsearch/* 的 get_jobs 服务，
+   按 start-integrated.ps1 实际解析的目录检查源码、发行版数据库和构建产物。
+   使用 tools/setup_delivery.py 保存 Java、Gradle、浏览器和 pdftoppm 路径。
+   缺少适配服务或真实数据库时，列出需要我提供的内容及受影响功能，
+   继续完成其他可以真实验证的安装步骤。
+7. 启动工作台与已配置的本地服务，实际检查页面、接口、模型响应和公开示例
+   JD 导入。运行技能检查、隐私检查、相关测试和前端构建，修复安装与启动错误。
+   招聘平台需要登录时，由我完成登录，再读取实际登录状态。
+8. 提供本地打开地址、实际安装版本、个人资料目录、已验证功能与待补充配置。
+   个人资料、密钥、Cookie、数据库和运行记录保留在本地。
+   公开发布、发送招聘消息与提交申请需要我另外明确授权。
+```
+
+## 运行依赖
+
+- **系统与版本管理**：Windows PowerShell、Git；当前启动脚本使用 Windows 工具路径。
+- **Python 3.11**：安装 `requirements-web.txt`，其中包含核心依赖与网页服务、文档解析、OCR、模型调用和浏览器导出所需的库。
+- **Node.js 22 与 npm**：安装 `frontend/package-lock.json` 锁定的依赖，构建 React 工作台。
+- **Edge 或 Chrome、Playwright**：用于网页操作和真实浏览器 PDF 导出；在配置中选择 `msedge` 或 `chrome`。
+- **Poppler**：提供 `pdftoppm`，用于 PDF 预览图生成。
+- **模型服务**：OpenAI 兼容接口、可用模型与 API Key；工具调用和 JSON 输出能力需要实际验证。
+- **招聘浏览器服务**：完整搜索与投递流程需要 JDK 21、Gradle，以及兼容 `/api/jobsearch/*` 的 `get_jobs` 服务及其发行版数据库。该服务单独部署，目录按 `start-integrated.ps1` 中的 `../../get_jobs` 解析。接口与配置要求见 [自动搜索与简历投递](docs/automatic-delivery.md)。
+
+## 需要你配置的内容
+
+- **模型连接**：`JOBSEARCH_LLM_BASE_URL`、`JOBSEARCH_LLM_MODEL`、`JOBSEARCH_LLM_API_KEY`。
+- **个人工作区**：`JOBSEARCH_WORKSPACE_ROOT` 指向工作区，`JOBSEARCH_MATERIALS_ROOT` 指向个人求职材料目录，均可使用仓库外的已有目录。
+- **个人资料 `candidate.md`**：姓名、手机、邮箱、所在城市、GitHub 或作品集链接，以及真实教育时间、学校、学位与专业。GPA 按原始资料填写，未提供时留空。
+- **求职偏好 `preferences.md`**：岗位方向、城市、薪资与工作制度偏好，以及每周可到岗天数、可持续实习月数、可到岗时间；按需要配置技能类别、固定荣誉和指定经历的使用条件。
+- **成果依据**：`evidence.md` 记录成果与来源；`个人资料/项目事实档案/index.json` 及对应 Markdown 记录项目、个人贡献、稳定事实编号和实际验证结果。字段要求见 [资料格式](docs/profile-format.md)。
+- **本地工具与招聘服务**：通过 `tools/setup_delivery.py` 配置 Java、Gradle、浏览器与 `pdftoppm` 的真实位置，生成本地 `runs/delivery/settings.json`；招聘平台账号由本人完成登录。
+
+当前简历生成格式需要至少两个相关项目、两条有依据的技能，以及至少一条真实的荣誉、竞赛或语言条目。固定荣誉与语言内容配置在 `preferences.md` 的 `resume.fixed_awards`，各项事实均使用本人确认的资料。
+
+仓库只提供空白资料模板。个人信息与项目证据需要你提供，智能体会按实际资料完成整理与配置。
+
+## 手动启动
 
 以下命令使用 Windows PowerShell。需要 Python 3.11、Node.js 22，以及用于简历导出的 Edge 或 Chrome。
 
@@ -74,7 +137,7 @@ $env:JOBSEARCH_LLM_API_KEY = [System.Net.NetworkCredential]::new('', (Read-Host 
 
 打开 [本地工作台](http://127.0.0.1:8765)。首次安装也可以使用 `.\start-web.ps1 -InstallDependencies` 完成 Python 依赖安装与前端构建。
 
-完整搜索、材料生成和投递流程需要配置相邻的 `get_jobs` 本地服务。所需 Java 21、Gradle、浏览器及 PDF 工具的配置见 [自动搜索与简历投递](docs/automatic-delivery.md)，配置完成后使用 `.\start-integrated.ps1 -Build` 启动。
+完整搜索、材料生成和投递流程需要配置兼容的 `get_jobs` 本地服务。所需 Java 21、Gradle、浏览器、PDF 工具及服务目录的配置见 [自动搜索与简历投递](docs/automatic-delivery.md)，配置完成后使用 `.\start-integrated.ps1 -Build` 启动。
 
 ### 命令行与助手入口
 
@@ -137,6 +200,14 @@ npm --prefix frontend run build
 ```
 
 真实模型、浏览器和资料验证需要相应本地配置，执行要求见项目 [AGENTS.md](AGENTS.md)。
+
+## 记得 Star，欢迎一起改进
+
+如果这个项目对你有帮助，记得点击仓库右上角的 **Star ⭐**，也方便以后找到它。
+
+欢迎在 [Issues 提交使用意见、问题和功能建议](https://github.com/tiankuolu/ai-job-search-cn/issues)，也欢迎通过 [Pull Request](https://github.com/tiankuolu/ai-job-search-cn/pulls) 改进代码、文档或演示。反馈问题时请说明操作步骤、运行环境、预期与实际结果，分享截图和日志前清除个人信息及密钥。
+
+欢迎提交意见，一起让这个项目变得更好。
 
 ## 来源与许可
 
