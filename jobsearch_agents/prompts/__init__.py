@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from ..resume_sources import asu_guidance
+
 PROMPTS_DIR = Path(__file__).resolve().parent
 
 KNOWN_PROMPTS = ["analyzer", "writer", "reviewer", "ranker", "judge", "interview", "researcher"]
@@ -14,4 +16,12 @@ def load_prompt(name: str) -> str:
     path = PROMPTS_DIR / f"{name}.md"
     if not path.exists():
         raise FileNotFoundError(f"prompt 文件缺失：{path}")
-    return path.read_text(encoding="utf-8")
+    prompt = path.read_text(encoding="utf-8")
+    if name in ("writer", "reviewer"):
+        rules_path = PROMPTS_DIR.parents[1] / "markets/china/resume-writing.md"
+        prompt += "\n\n" + rules_path.read_text(encoding="utf-8")
+        enhancement_path = PROMPTS_DIR.parents[1] / "markets/china/resume-enhancement.md"
+        prompt += "\n\n" + enhancement_path.read_text(encoding="utf-8")
+        guidance, _ = asu_guidance(PROMPTS_DIR.parents[1])
+        prompt += "\n\n" + guidance
+    return prompt

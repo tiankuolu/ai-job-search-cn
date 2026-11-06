@@ -1,4 +1,4 @@
-param(
+﻿param(
     [switch]$InstallDependencies,
     [switch]$SkipBuild
 )
@@ -14,7 +14,7 @@ try {
         py -3.11 -m pip install -r requirements-web.txt
         if ($LASTEXITCODE -ne 0) { throw 'Python 依赖安装失败。' }
     }
-    py -3.11 -c "import fastapi, uvicorn, openai, httpx"
+    py -3.11 -c "import fastapi, uvicorn, openai, httpx, jsonpatch, jsonpointer, lxml, markdown_it"
     if ($LASTEXITCODE -ne 0) { throw '请运行 .\start-web.ps1 -InstallDependencies 安装依赖。' }
     if (-not $SkipBuild) {
         Push-Location -LiteralPath (Join-Path $PSScriptRoot 'frontend')

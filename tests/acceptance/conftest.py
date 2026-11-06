@@ -10,6 +10,7 @@ from jobsearch_agents.actions.common import ActionContext, default_context
 def workspace(tmp_path: Path) -> ActionContext:
     original = default_context()
     original.read_profile()
+    shutil.copy2(original.repo_root / "AGENTS.md", tmp_path / "AGENTS.md")
     jobs = sorted(original.data_root.glob("*/岗位JD.md"))[:2]
     if len(jobs) != 2:
         raise FileNotFoundError("真实集成验证需要至少两个完整岗位")

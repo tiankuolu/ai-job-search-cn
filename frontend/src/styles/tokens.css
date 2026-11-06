@@ -1,0 +1,113 @@
+:root {
+  --page: #f7f7f4;
+  --surface: #ffffff;
+  --surface-2: #fbfbf9;
+  --panel: #ffffff;
+  --panel-soft: #fbfbf9;
+  --line: #d7dcd7;
+  --line-soft: #e8ebe7;
+  --text: #1b241f;
+  --text-2: #3f4a44;
+  --text-3: #5f6b64;
+  --ink: #1b241f;
+  --ink-soft: #3f4a44;
+  --muted: #5f6b64;
+  --muted-soft: #66716a;
+  --accent: #2f6b52;
+  --accent-strong: #245741;
+  --accent-soft: #e9f2ec;
+  --sidebar: #16211b;
+  --sidebar-raised: #223129;
+  --sidebar-hover: #1d2a23;
+  --sidebar-line: #33443a;
+  --sidebar-ink: #eef3ef;
+  --sidebar-muted: #a4b7ab;
+  --success: #2f6b45;
+  --success-bg: #e8f2eb;
+  --warning: #8a5a12;
+  --warning-bg: #faf1df;
+  --danger: #a33a32;
+  --danger-bg: #f8e9e7;
+  --running: #275f8f;
+  --running-bg: #e8f0f8;
+  --queued: #6f5a2c;
+  --queued-bg: #f4efe2;
+  --idle: #4e5a53;
+  --idle-bg: #eff2ef;
+  --focus: #1c6dd0;
+  --focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px #1c6dd0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-card: 14px;
+  --radius-control: 8px;
+  --shadow-1: 0 1px 2px rgba(24, 32, 27, 0.05);
+  --shadow-2: 0 8px 28px rgba(24, 32, 27, 0.09);
+  --shadow-card: 0 1px 2px rgba(24, 32, 27, 0.05);
+  --font-ui: Inter, 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13.5px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --leading-tight: 1.35;
+  --leading-body: 1.7;
+  --leading-relaxed: 1.8;
+  --measure: 36em;
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  color-scheme: light;
+}
+
+body[data-app='paper'] {
+  --accent: #2f6b52;
+  --accent-strong: #245741;
+  --accent-soft: #e9f2ec;
+  --sidebar: #16211b;
+  --sidebar-raised: #223129;
+  --sidebar-hover: #1d2a23;
+  --sidebar-line: #33443a;
+  --sidebar-muted: #a4b7ab;
+}
+
+body[data-app='trip'] {
+  --accent: #1f6f78;
+  --accent-strong: #175961;
+  --accent-soft: #e6f2f3;
+  --sidebar: #102a30;
+  --sidebar-raised: #1b4348;
+  --sidebar-hover: #17383d;
+  --sidebar-line: #2a4f54;
+  --sidebar-muted: #9fc1c5;
+}
+
+body[data-app='job'] {
+  --accent: #5b4bb7;
+  --accent-strong: #4a3c9c;
+  --accent-soft: #efedfa;
+  --sidebar: #201d2b;
+  --sidebar-raised: #332e47;
+  --sidebar-hover: #2a2639;
+  --sidebar-line: #3d3752;
+  --sidebar-muted: #b1a9c7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+  }
+}

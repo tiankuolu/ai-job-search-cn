@@ -1,0 +1,1389 @@
+{
+  "completed": {
+    "run": {
+      "run_id": "analyze-20261028-175646-f3ebd3",
+      "action": "analyze",
+      "status": "completed",
+      "source": "web",
+      "created_at": "2026-10-28T09:56:46.477554+00:00",
+      "ended_at": "2026-10-28T09:57:49.398013+00:00",
+      "model": "deepseek-v4.1-flash-1017",
+      "jobs": [],
+      "error": null,
+      "trace": {
+        "calls": [
+          {
+            "call_id": "822ece5a2279",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 2526,
+            "completion_tokens": 190,
+            "latency_ms": 2049,
+            "execution_id": "4b47d448f744",
+            "response": {}
+          },
+          {
+            "call_id": "1d72655cdf21",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 8183,
+            "completion_tokens": 1683,
+            "latency_ms": 18696,
+            "execution_id": "4b47d448f744",
+            "response": {}
+          },
+          {
+            "call_id": "8a189ae32f40",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 9922,
+            "completion_tokens": 4637,
+            "latency_ms": 38471,
+            "execution_id": "4b47d448f744",
+            "response": {}
+          },
+          {
+            "call_id": "c4fa9a6c6d6f",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 14608,
+            "completion_tokens": 296,
+            "latency_ms": 3663,
+            "execution_id": "4b47d448f744",
+            "response": {}
+          }
+        ],
+        "total_tokens": 42045
+      },
+      "artifacts": [],
+      "result": null
+    },
+    "events": [
+      {
+        "seq": 1,
+        "type": "run.queued",
+        "timestamp": "2026-10-28T09:56:46.478085+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {}
+      },
+      {
+        "seq": 2,
+        "type": "run.started",
+        "timestamp": "2026-10-28T09:56:46.479565+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {}
+      },
+      {
+        "seq": 3,
+        "type": "agent.started",
+        "timestamp": "2026-10-28T09:56:46.482813+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "execution_id": "4b47d448f744",
+          "agent": "analyzer"
+        }
+      },
+      {
+        "seq": 4,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:56:46.483190+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "822ece5a2279",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 5,
+        "type": "llm.finished",
+        "timestamp": "2026-10-28T09:56:48.532736+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "822ece5a2279",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 2526,
+          "completion_tokens": 190,
+          "latency_ms": 2049,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 6,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:48.534032+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_cyytx74eb37c8urh7t34xhsl",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279"
+        }
+      },
+      {
+        "seq": 7,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:48.534698+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_cyytx74eb37c8urh7t34xhsl",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 8,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:48.534900+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_01_zs9pyth8wet0hojx3ib8tlme",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279"
+        }
+      },
+      {
+        "seq": 9,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:48.535405+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_01_zs9pyth8wet0hojx3ib8tlme",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 10,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:48.535613+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_02_fbapkfnpd5it3m16youelh72",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279"
+        }
+      },
+      {
+        "seq": 11,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:48.536095+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_02_fbapkfnpd5it3m16youelh72",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 12,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:48.536294+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_03_u8t0yo4kacamflmw2dvqor6u",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279"
+        }
+      },
+      {
+        "seq": 13,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:48.536791+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_03_u8t0yo4kacamflmw2dvqor6u",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "822ece5a2279",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 14,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:56:48.537083+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "1d72655cdf21",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 15,
+        "type": "llm.finished",
+        "timestamp": "2026-10-28T09:57:07.234000+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "1d72655cdf21",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 8183,
+          "completion_tokens": 1683,
+          "latency_ms": 18696,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 16,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:57:07.236091+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_hm30u2ow6ed1errcs29s71z2",
+          "name": "make_job_key",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21"
+        }
+      },
+      {
+        "seq": 17,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:57:07.236363+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_hm30u2ow6ed1errcs29s71z2",
+          "name": "make_job_key",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 18,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:57:07.236536+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_01_tyk4w4hjornvuinpmbwoqzhu",
+          "name": "overall_score",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21"
+        }
+      },
+      {
+        "seq": 19,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:57:07.236696+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_01_tyk4w4hjornvuinpmbwoqzhu",
+          "name": "overall_score",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 20,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:57:07.236850+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_02_rbk943u7yradc85dtxff2q9o",
+          "name": "score_band",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21"
+        }
+      },
+      {
+        "seq": 21,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:57:07.236993+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_02_rbk943u7yradc85dtxff2q9o",
+          "name": "score_band",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "1d72655cdf21",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 22,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:57:07.237208+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "8a189ae32f40",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 23,
+        "type": "llm.finished",
+        "timestamp": "2026-10-28T09:57:45.708564+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "8a189ae32f40",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 9922,
+          "completion_tokens": 4637,
+          "latency_ms": 38471,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 24,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:57:45.711714+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_d6mabk8xmfb5yngsxf2lwqba",
+          "name": "write_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "8a189ae32f40"
+        }
+      },
+      {
+        "seq": 25,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:57:45.712661+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "tool_id": "call_00_d6mabk8xmfb5yngsxf2lwqba",
+          "name": "write_file",
+          "agent": "analyzer",
+          "execution_id": "4b47d448f744",
+          "call_id": "8a189ae32f40",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 26,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:57:45.712982+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "c4fa9a6c6d6f",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 27,
+        "type": "llm.finished",
+        "timestamp": "2026-10-28T09:57:49.376406+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "call_id": "c4fa9a6c6d6f",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 14608,
+          "completion_tokens": 296,
+          "latency_ms": 3663,
+          "execution_id": "4b47d448f744"
+        }
+      },
+      {
+        "seq": 28,
+        "type": "agent.finished",
+        "timestamp": "2026-10-28T09:57:49.380910+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "execution_id": "4b47d448f744",
+          "agent": "analyzer"
+        }
+      },
+      {
+        "seq": 29,
+        "type": "artifact.saved",
+        "timestamp": "2026-10-28T09:57:49.394350+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {
+          "name": "百度地图-Agent产品实习-面议.md"
+        }
+      },
+      {
+        "seq": 30,
+        "type": "run.completed",
+        "timestamp": "2026-10-28T09:57:49.394533+00:00",
+        "run_id": "analyze-20261028-175646-f3ebd3",
+        "data": {}
+      }
+    ]
+  },
+  "failed": {
+    "run": {
+      "run_id": "analyze-20261028-175611-9ba2a9",
+      "action": "analyze",
+      "status": "failed",
+      "source": "web",
+      "created_at": "2026-10-28T09:56:11.951622+00:00",
+      "ended_at": "2026-10-28T09:56:15.710490+00:00",
+      "model": "deepseek-v4.1-flash-1017",
+      "jobs": [],
+      "error": null,
+      "trace": {
+        "calls": [
+          {
+            "call_id": "700d79b423d4",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 2526,
+            "completion_tokens": 190,
+            "latency_ms": 2007,
+            "execution_id": "7fd5170a2e1e",
+            "response": {}
+          },
+          {
+            "call_id": "adc0f507e016",
+            "agent": "analyzer",
+            "model": "deepseek-v4.1-flash-1017",
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "latency_ms": 1737,
+            "execution_id": "7fd5170a2e1e"
+          }
+        ],
+        "total_tokens": 2716
+      },
+      "artifacts": [],
+      "result": null
+    },
+    "events": [
+      {
+        "seq": 1,
+        "type": "run.queued",
+        "timestamp": "2026-10-28T09:56:11.952138+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {}
+      },
+      {
+        "seq": 2,
+        "type": "run.started",
+        "timestamp": "2026-10-28T09:56:11.953576+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {}
+      },
+      {
+        "seq": 3,
+        "type": "agent.started",
+        "timestamp": "2026-10-28T09:56:11.957016+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "execution_id": "7fd5170a2e1e",
+          "agent": "analyzer"
+        }
+      },
+      {
+        "seq": 4,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:56:11.957322+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "call_id": "700d79b423d4",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "7fd5170a2e1e"
+        }
+      },
+      {
+        "seq": 5,
+        "type": "llm.finished",
+        "timestamp": "2026-10-28T09:56:13.964829+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "call_id": "700d79b423d4",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 2526,
+          "completion_tokens": 190,
+          "latency_ms": 2007,
+          "execution_id": "7fd5170a2e1e"
+        }
+      },
+      {
+        "seq": 6,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:13.966030+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_00_tibl1lpqhd0luomldp24amf9",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4"
+        }
+      },
+      {
+        "seq": 7,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:13.966686+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_00_tibl1lpqhd0luomldp24amf9",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 8,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:13.966895+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_01_7net9moxvedgfw1n63v9l6un",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4"
+        }
+      },
+      {
+        "seq": 9,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:13.967396+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_01_7net9moxvedgfw1n63v9l6un",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 10,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:13.967601+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_02_ike5wm7lxvvopevrvsc8fr7t",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4"
+        }
+      },
+      {
+        "seq": 11,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:13.968098+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_02_ike5wm7lxvvopevrvsc8fr7t",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 12,
+        "type": "tool.started",
+        "timestamp": "2026-10-28T09:56:13.968292+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_03_1nkitwpf6os3vzs2jfiwho5r",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4"
+        }
+      },
+      {
+        "seq": 13,
+        "type": "tool.finished",
+        "timestamp": "2026-10-28T09:56:13.968790+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "tool_id": "call_03_1nkitwpf6os3vzs2jfiwho5r",
+          "name": "read_file",
+          "agent": "analyzer",
+          "execution_id": "7fd5170a2e1e",
+          "call_id": "700d79b423d4",
+          "latency_ms": 0
+        }
+      },
+      {
+        "seq": 14,
+        "type": "llm.started",
+        "timestamp": "2026-10-28T09:56:13.969094+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "call_id": "adc0f507e016",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 0,
+          "execution_id": "7fd5170a2e1e"
+        }
+      },
+      {
+        "seq": 15,
+        "type": "llm.failed",
+        "timestamp": "2026-10-28T09:56:15.706485+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "call_id": "adc0f507e016",
+          "agent": "analyzer",
+          "model": "deepseek-v4.1-flash-1017",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "latency_ms": 1737,
+          "execution_id": "7fd5170a2e1e",
+          "error": "risk_confirmation_required"
+        }
+      },
+      {
+        "seq": 16,
+        "type": "agent.failed",
+        "timestamp": "2026-10-28T09:56:15.708810+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "execution_id": "7fd5170a2e1e",
+          "agent": "analyzer",
+          "error": "risk_confirmation_required"
+        }
+      },
+      {
+        "seq": 17,
+        "type": "run.failed",
+        "timestamp": "2026-10-28T09:56:15.709023+00:00",
+        "run_id": "analyze-20261028-175611-9ba2a9",
+        "data": {
+          "error": "risk_confirmation_required"
+        }
+      }
+    ]
+  },
+  "legacy": {
+    "run": {
+      "run_id": "analyze-20261022-114319-21fc04",
+      "action": "analyze",
+      "total_tokens": 554574,
+      "calls": [
+        {
+          "call_id": "c3c62d9d1419",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1690,
+          "completion_tokens": 168,
+          "latency_ms": 4378,
+          "response": {}
+        },
+        {
+          "call_id": "2a329a7d4129",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1684,
+          "completion_tokens": 165,
+          "latency_ms": 4487,
+          "response": {}
+        },
+        {
+          "call_id": "f871d29de644",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1682,
+          "completion_tokens": 165,
+          "latency_ms": 4860,
+          "response": {}
+        },
+        {
+          "call_id": "a862ac85a877",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1688,
+          "completion_tokens": 168,
+          "latency_ms": 2329,
+          "response": {}
+        },
+        {
+          "call_id": "94bf7da3d815",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4873,
+          "completion_tokens": 1183,
+          "latency_ms": 7087,
+          "response": {}
+        },
+        {
+          "call_id": "cb79407f6139",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4897,
+          "completion_tokens": 600,
+          "latency_ms": 3507,
+          "response": {}
+        },
+        {
+          "call_id": "93389edd2c54",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4900,
+          "completion_tokens": 1267,
+          "latency_ms": 7173,
+          "response": {}
+        },
+        {
+          "call_id": "418b91658dcc",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4751,
+          "completion_tokens": 1006,
+          "latency_ms": 5759,
+          "response": {}
+        },
+        {
+          "call_id": "6f7922dee49d",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5562,
+          "completion_tokens": 137,
+          "latency_ms": 1424,
+          "response": {}
+        },
+        {
+          "call_id": "165661a60444",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5716,
+          "completion_tokens": 39,
+          "latency_ms": 1249,
+          "response": {}
+        },
+        {
+          "call_id": "e341635e2565",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6119,
+          "completion_tokens": 254,
+          "latency_ms": 2275,
+          "response": {}
+        },
+        {
+          "call_id": "466e589331a4",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5774,
+          "completion_tokens": 3487,
+          "latency_ms": 17335,
+          "response": {}
+        },
+        {
+          "call_id": "d8e7d7baec67",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5822,
+          "completion_tokens": 398,
+          "latency_ms": 2474,
+          "response": {}
+        },
+        {
+          "call_id": "31453a57f4ad",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6231,
+          "completion_tokens": 230,
+          "latency_ms": 1606,
+          "response": {}
+        },
+        {
+          "call_id": "44c33cbddc8e",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6412,
+          "completion_tokens": 132,
+          "latency_ms": 1281,
+          "response": {}
+        },
+        {
+          "call_id": "302d0916c17d",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6583,
+          "completion_tokens": 163,
+          "latency_ms": 1124,
+          "response": {}
+        },
+        {
+          "call_id": "4a0e25900201",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6274,
+          "completion_tokens": 2785,
+          "latency_ms": 13956,
+          "response": {}
+        },
+        {
+          "call_id": "c3f416c95a64",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6500,
+          "completion_tokens": 132,
+          "latency_ms": 1115,
+          "response": {}
+        },
+        {
+          "call_id": "10243c7e10a5",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6800,
+          "completion_tokens": 137,
+          "latency_ms": 1403,
+          "response": {}
+        },
+        {
+          "call_id": "bf2980276216",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6671,
+          "completion_tokens": 139,
+          "latency_ms": 1207,
+          "response": {}
+        },
+        {
+          "call_id": "74091d3568ee",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6977,
+          "completion_tokens": 95,
+          "latency_ms": 1216,
+          "response": {}
+        },
+        {
+          "call_id": "d23b6d777756",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6849,
+          "completion_tokens": 224,
+          "latency_ms": 1558,
+          "response": {}
+        },
+        {
+          "call_id": "18060161f67e",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 7089,
+          "completion_tokens": 3844,
+          "latency_ms": 20364,
+          "response": {}
+        },
+        {
+          "call_id": "2a7821b9b56b",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 7112,
+          "completion_tokens": 156,
+          "latency_ms": 1442,
+          "response": {}
+        },
+        {
+          "call_id": "fcafd0c768fe",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 7307,
+          "completion_tokens": 196,
+          "latency_ms": 1280,
+          "response": {}
+        },
+        {
+          "call_id": "6e41fe7d8aea",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 7557,
+          "completion_tokens": 199,
+          "latency_ms": 1283,
+          "response": {}
+        },
+        {
+          "call_id": "40105df785f8",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 7795,
+          "completion_tokens": 4544,
+          "latency_ms": 23056,
+          "response": {}
+        },
+        {
+          "call_id": "15e730f94ca6",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9098,
+          "completion_tokens": 134,
+          "latency_ms": 1894,
+          "response": {}
+        },
+        {
+          "call_id": "fcc4e4655b45",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9304,
+          "completion_tokens": 352,
+          "latency_ms": 2258,
+          "response": {}
+        },
+        {
+          "call_id": "6157f04c5c90",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1682,
+          "completion_tokens": 163,
+          "latency_ms": 1209,
+          "response": {}
+        },
+        {
+          "call_id": "6b770e12e576",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1684,
+          "completion_tokens": 169,
+          "latency_ms": 1098,
+          "response": {}
+        },
+        {
+          "call_id": "bf24bb5ffb87",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4781,
+          "completion_tokens": 1421,
+          "latency_ms": 7741,
+          "response": {}
+        },
+        {
+          "call_id": "b1ba97e58928",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4945,
+          "completion_tokens": 1092,
+          "latency_ms": 5961,
+          "response": {}
+        },
+        {
+          "call_id": "fb04c72b35ce",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 10975,
+          "completion_tokens": 269,
+          "latency_ms": 2168,
+          "response": {}
+        },
+        {
+          "call_id": "41c1b86e0ea7",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6115,
+          "completion_tokens": 239,
+          "latency_ms": 1591,
+          "response": {}
+        },
+        {
+          "call_id": "95a4b050ef5b",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6256,
+          "completion_tokens": 109,
+          "latency_ms": 1663,
+          "response": {}
+        },
+        {
+          "call_id": "184fe4677ad6",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6393,
+          "completion_tokens": 128,
+          "latency_ms": 1421,
+          "response": {}
+        },
+        {
+          "call_id": "1cc6bb57213a",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1682,
+          "completion_tokens": 163,
+          "latency_ms": 1498,
+          "response": {}
+        },
+        {
+          "call_id": "342474c0a26a",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6382,
+          "completion_tokens": 2949,
+          "latency_ms": 14718,
+          "response": {}
+        },
+        {
+          "call_id": "02896331185d",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6560,
+          "completion_tokens": 209,
+          "latency_ms": 1523,
+          "response": {}
+        },
+        {
+          "call_id": "5ef30e509f3b",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4894,
+          "completion_tokens": 1087,
+          "latency_ms": 6292,
+          "response": {}
+        },
+        {
+          "call_id": "60d6d1a8b476",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6808,
+          "completion_tokens": 139,
+          "latency_ms": 1311,
+          "response": {}
+        },
+        {
+          "call_id": "74ef149cf5ae",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6964,
+          "completion_tokens": 2914,
+          "latency_ms": 14769,
+          "response": {}
+        },
+        {
+          "call_id": "e070a48e2dcb",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 12379,
+          "completion_tokens": 311,
+          "latency_ms": 2618,
+          "response": {}
+        },
+        {
+          "call_id": "63c83fa51f0e",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1688,
+          "completion_tokens": 167,
+          "latency_ms": 1051,
+          "response": {}
+        },
+        {
+          "call_id": "a674fa966b05",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6036,
+          "completion_tokens": 179,
+          "latency_ms": 1521,
+          "response": {}
+        },
+        {
+          "call_id": "733824e43296",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5037,
+          "completion_tokens": 1039,
+          "latency_ms": 5980,
+          "response": {}
+        },
+        {
+          "call_id": "f926e12b2ed2",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6254,
+          "completion_tokens": 309,
+          "latency_ms": 1849,
+          "response": {}
+        },
+        {
+          "call_id": "f9a4affb4a65",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6602,
+          "completion_tokens": 4196,
+          "latency_ms": 22353,
+          "response": {}
+        },
+        {
+          "call_id": "f37c1cacf9f3",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6144,
+          "completion_tokens": 185,
+          "latency_ms": 1559,
+          "response": {}
+        },
+        {
+          "call_id": "b3bee38e1258",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9370,
+          "completion_tokens": 283,
+          "latency_ms": 2065,
+          "response": {}
+        },
+        {
+          "call_id": "1bce7da71437",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6368,
+          "completion_tokens": 114,
+          "latency_ms": 1139,
+          "response": {}
+        },
+        {
+          "call_id": "677770d0ef4f",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1688,
+          "completion_tokens": 171,
+          "latency_ms": 981,
+          "response": {}
+        },
+        {
+          "call_id": "02e2a677cb58",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6499,
+          "completion_tokens": 52,
+          "latency_ms": 989,
+          "response": {}
+        },
+        {
+          "call_id": "8512f0860fd8",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4835,
+          "completion_tokens": 1162,
+          "latency_ms": 6049,
+          "response": {}
+        },
+        {
+          "call_id": "cf64e65f1b1d",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6570,
+          "completion_tokens": 4480,
+          "latency_ms": 22924,
+          "response": {}
+        },
+        {
+          "call_id": "40ed6bdd4b50",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9918,
+          "completion_tokens": 344,
+          "latency_ms": 2179,
+          "response": {}
+        },
+        {
+          "call_id": "43bf1490ceab",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 1684,
+          "completion_tokens": 165,
+          "latency_ms": 1278,
+          "response": {}
+        },
+        {
+          "call_id": "376eebe3ed89",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 4561,
+          "completion_tokens": 726,
+          "latency_ms": 4045,
+          "response": {}
+        },
+        {
+          "call_id": "762c9c9ec484",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 6198,
+          "completion_tokens": 136,
+          "latency_ms": 1415,
+          "response": {}
+        },
+        {
+          "call_id": "482e894ccc3a",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9303,
+          "completion_tokens": 198,
+          "latency_ms": 1404,
+          "response": {}
+        },
+        {
+          "call_id": "5bf2d467c09b",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 5451,
+          "completion_tokens": 54,
+          "latency_ms": 839,
+          "response": {}
+        },
+        {
+          "call_id": "8b531a4fa24c",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 8421,
+          "completion_tokens": 141,
+          "latency_ms": 1206,
+          "response": {}
+        },
+        {
+          "call_id": "26a0083ee8f2",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9540,
+          "completion_tokens": 172,
+          "latency_ms": 1661,
+          "response": {}
+        },
+        {
+          "call_id": "f6010fc4c5fd",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 8601,
+          "completion_tokens": 219,
+          "latency_ms": 1768,
+          "response": {}
+        },
+        {
+          "call_id": "c7b2cd1caa50",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9751,
+          "completion_tokens": 143,
+          "latency_ms": 1746,
+          "response": {}
+        },
+        {
+          "call_id": "ea743e1a2c7c",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 8859,
+          "completion_tokens": 157,
+          "latency_ms": 1280,
+          "response": {}
+        },
+        {
+          "call_id": "30de8fbe0f9c",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9933,
+          "completion_tokens": 221,
+          "latency_ms": 2047,
+          "response": {}
+        },
+        {
+          "call_id": "9a5c242f373b",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 9035,
+          "completion_tokens": 3513,
+          "latency_ms": 16962,
+          "response": {}
+        },
+        {
+          "call_id": "5a57d5b034fa",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 10193,
+          "completion_tokens": 338,
+          "latency_ms": 2239,
+          "response": {}
+        },
+        {
+          "call_id": "d39a879224de",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 10837,
+          "completion_tokens": 263,
+          "latency_ms": 2074,
+          "response": {}
+        },
+        {
+          "call_id": "22f4ab698b77",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 10551,
+          "completion_tokens": 4066,
+          "latency_ms": 19903,
+          "response": {}
+        },
+        {
+          "call_id": "54a970430345",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 11092,
+          "completion_tokens": 362,
+          "latency_ms": 3448,
+          "response": {}
+        },
+        {
+          "call_id": "640e52143f8e",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 12588,
+          "completion_tokens": 267,
+          "latency_ms": 2010,
+          "response": {}
+        },
+        {
+          "call_id": "80294408a8fd",
+          "agent": "analyzer",
+          "model": "deepseek-flash",
+          "prompt_tokens": 14659,
+          "completion_tokens": 408,
+          "latency_ms": 2570,
+          "response": {}
+        }
+      ]
+    },
+    "events": []
+  }
+}

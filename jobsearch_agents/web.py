@@ -24,6 +24,8 @@ from .actions.rank import run_rank
 from .config import LLMConfig
 from .runtime import OpenAICompatClient
 from .runtime.trace import Trace
+from .delivery import DeliveryService
+from .delivery.routes import router as delivery_router
 
 TERMINAL = {"completed", "failed", "review_required", "interrupted", "recorded"}
 DOCUMENTS = {
@@ -62,6 +64,8 @@ class RunRequest(BaseModel):
     action: Literal["analyze", "apply", "rank", "interview"]
     job_ids: list[str] = Field(default_factory=list)
     max_workers: int = Field(default=4, ge=1, le=8)
+    revision: str = ""
+    base_run_id: str = ""
 
 
 class RunStore:
@@ -75,6 +79,7 @@ class RunStore:
         self.traces: dict[str, Trace] = {}
         self.events: dict[str, list[dict]] = {}
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="jobsearch-web")
+        self.delivery = None
         for path in self.web_root.glob("*/manifest.json"):
             record = json.loads(path.read_text(encoding="utf-8"))
             run_id = record["run_id"]
@@ -102,6 +107,8 @@ class RunStore:
         self.ctx.read_profile()
         client = OpenAICompatClient(config)
         with self.lock:
+            if self.delivery is not None and any(task["status"] in {"queued", "running"} for task in self.delivery.list("tasks")):
+                raise HTTPException(409, "搜索与投递正在执行，请等待任务结束。")
             if any(record["status"] not in TERMINAL for record in self.records.values()):
                 raise HTTPException(409, "已有任务正在执行，请等待任务结束。")
             trace = Trace(self.root, request.action, event_sink=self.append)
@@ -114,6 +121,7 @@ class RunStore:
                 "created_at": now(), "ended_at": None, "error": None,
                 "jobs": [{"id": job_id(path), "key": self.ctx.job_key(path)} for path in paths],
                 "model": client.model, "artifacts": [], "result": None,
+                "revision": request.revision, "base_run_id": request.base_run_id,
             }
             self.persist(run_id)
         trace.emit("run.queued", action=request.action, jobs=self.records[run_id]["jobs"])
@@ -130,7 +138,15 @@ class RunStore:
             result = run_analyze(client, self.ctx, max_workers=request.max_workers, job_files=paths, trace=trace)
             outputs = [self.ctx.evaluation_path(path) for path in paths]
         elif request.action == "apply":
-            result = run_apply(client, self.ctx, paths[0], trace=trace)
+            base_draft = ""
+            if request.base_run_id:
+                with self.lock:
+                    base = self.records.get(request.base_run_id)
+                    artifacts = list(base.get("artifacts", [])) if base else []
+                if not artifacts:
+                    raise ValueError(f"找不到可用于修改的上一版材料：{request.base_run_id}")
+                base_draft = artifacts[0].get("content", "")
+            result = run_apply(client, self.ctx, paths[0], trace=trace, base_draft=base_draft, revision=request.revision)
             outputs = [self.ctx.repo_root / result["output_file"]]
         elif request.action == "interview":
             result = run_interview(client, self.ctx, paths[0], trace=trace)
@@ -227,14 +243,22 @@ class RunStore:
 def create_app(ctx: ActionContext | None = None, runs_dir: Path | None = None) -> FastAPI:
     context = ctx or default_context()
     store = RunStore(runs_dir or RUNS_DIR, context)
+    delivery = DeliveryService(context, (runs_dir or RUNS_DIR) / "delivery")
+    delivery.lock = store.lock
+    delivery.other_busy = lambda: any(record["status"] not in TERMINAL for record in store.records.values())
+    store.delivery = delivery
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         yield
         store.executor.shutdown(wait=True)
+        delivery.executor.shutdown(wait=True)
+        delivery.url_importer.close()
 
     app = FastAPI(title="求职 Agent 工作台", lifespan=lifespan)
     app.state.store = store
+    app.state.delivery = delivery
+    app.include_router(delivery_router(delivery))
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"])
 
     @app.middleware("http")

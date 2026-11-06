@@ -17,6 +17,7 @@ from jobsearch_agents.runtime import Agent, OpenAICompatClient
 def real_workspace(tmp_path: Path):
     original = default_context()
     original.read_profile()
+    shutil.copy2(original.repo_root / "AGENTS.md", tmp_path / "AGENTS.md")
     materials = tmp_path / "材料"
     profile = materials / "个人资料"
     shutil.copytree(original.profile_dir, profile)
@@ -29,10 +30,11 @@ def real_workspace(tmp_path: Path):
     return ActionContext(tmp_path, profile, materials)
 
 
-def test_web_reads_real_jobs_and_saved_history(real_workspace, tmp_path):
+@pytest.mark.parametrize("has_events", [False, True])
+def test_web_reads_real_jobs_and_saved_history(real_workspace, tmp_path, has_events):
     runs = tmp_path / "runs"
     runs.mkdir()
-    source = next(path for path in RUNS_DIR.glob("*.json") if isinstance(data := json.loads(path.read_text(encoding="utf-8")), dict) and isinstance(data.get("calls"), list) and data.get("calls"))
+    source = next(path for path in RUNS_DIR.glob("*.json") if isinstance(data := json.loads(path.read_text(encoding="utf-8")), dict) and isinstance(data.get("calls"), list) and data.get("calls") and bool(data.get("events")) == has_events)
     shutil.copy2(source, runs / source.name)
     with TestClient(create_app(real_workspace, runs)) as client:
         jobs = client.get("/api/jobs").json()
@@ -40,7 +42,7 @@ def test_web_reads_real_jobs_and_saved_history(real_workspace, tmp_path):
         detail = client.get(f"/api/jobs/{jobs[0]['id']}").json()
         assert detail["content"] == _job_files(real_workspace)[0].read_text(encoding="utf-8-sig")
         history = client.get("/api/runs").json()
-        assert history[0]["source"] == "legacy"
+        assert history[0]["source"] == ("trace" if has_events else "legacy")
         saved = client.get(f"/api/runs/{source.stem}").json()
         assert saved["trace"]["calls"] == json.loads(source.read_text(encoding="utf-8"))["calls"]
         assert client.get("/api/meta").json()["workspace"] == str(real_workspace.data_root)

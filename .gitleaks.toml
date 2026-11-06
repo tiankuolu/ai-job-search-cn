@@ -1,0 +1,18 @@
+[extend]
+useDefault = true
+
+# 样式文件的 SHA-256 摘要。
+[[allowlists]]
+description = "CSS content hash"
+condition = "AND"
+paths = ['''^ui-contract\.json$''']
+regexTarget = "secret"
+regexes = ['''^8c7dfb2fd04c135894dbbab1f86e86a3353426bca69dec5842b1c72cf94e3b2d$''']
+
+# 岗位标识测试中的预期字符串。
+[[allowlists]]
+description = "Expected job identifiers"
+condition = "AND"
+paths = ['''^tests/test_job_key\.py$''']
+regexTarget = "secret"
+regexes = ['''^acme-corp_soc-analyst-l2$''', '''^securion_4461771225$''']

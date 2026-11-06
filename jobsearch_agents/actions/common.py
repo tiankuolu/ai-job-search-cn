@@ -4,9 +4,11 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 
+from ..resume_sources import read_resume_profile
+
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-WORKSPACE_ROOT = Path(os.environ.get("JOBSEARCH_WORKSPACE_ROOT", REPO_ROOT.parents[2])).resolve()
-MATERIALS_ROOT = Path(os.environ.get("JOBSEARCH_MATERIALS_ROOT", WORKSPACE_ROOT / "卢天阔_AI-Agent简历")).resolve()
+WORKSPACE_ROOT = Path(os.environ.get("JOBSEARCH_WORKSPACE_ROOT", REPO_ROOT.parent / "jobsearch-workspace")).resolve()
+MATERIALS_ROOT = Path(os.environ.get("JOBSEARCH_MATERIALS_ROOT", WORKSPACE_ROOT / "求职材料")).resolve()
 INBOX_DIR = MATERIALS_ROOT / "岗位记录" / "inbox"
 EVALUATED_DIR = MATERIALS_ROOT / "岗位记录" / "evaluated"
 PROFILE_DIR = MATERIALS_ROOT / "个人资料"
@@ -50,6 +52,9 @@ class ActionContext:
                 )
             parts[name[:-3]] = path.read_text(encoding="utf-8")
         return parts
+
+    def read_resume_profile(self) -> dict[str, str]:
+        return read_resume_profile(self.profile_dir)
 
 
 def default_context(profile_dir: Path | None = None) -> ActionContext:

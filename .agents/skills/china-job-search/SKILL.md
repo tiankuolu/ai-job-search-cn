@@ -12,5 +12,7 @@ description: 根据真实档案与项目证据搜索中国实习岗位、分析�
 支持 `setup`、`scrape`、`analyze`、`apply`、`rank`、`interview`，以及对应自然语言请求。
 完整 JD 可以直接保存后分析；用户提供链接时，先读取完整岗位正文。
 个人事实来自材料目录的 `个人资料/`，项目成果需要对应代码或真实运行依据。
+简历生成读取 candidate.md 的个人信息、preferences.md 和项目事实档案/index.json 列出的全部档案，根据 JD 选择稳定编号所对应的事实，保存内部证据关联。更新项目档案时核查对应源码及实际运行记录。
 保护已有个人文件，岗位分析优先使用现有公司岗位目录。
+简历提升和制作读取 `markets/china/resume-enhancement.md`，并按需读取 `third_party/asu-skills/skills/great-resume/SKILL.md`、`make-resume/SKILL.md` 及其引用规范。采用用户已确认事实与本项目材料要求，默认使用 ASu 模板生成可编辑 HTML、单页 PDF 和预览图。
 输出后读取实际文件，完成必要验证并提供完整路径。

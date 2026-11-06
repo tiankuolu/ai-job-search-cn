@@ -1,0 +1,117 @@
+<!doctype html>
+<!--
+ASu-skills: https://github.com/Hisn00w/ASu-skills
+MIT License
+
+Copyright (c) 2026 Hisn00w
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="../">
+  <title>{{ name }} - {{ intention }}</title>
+  <link rel="stylesheet" href="frame/asu/base.css">
+  <style>
+    body { font-size: {{ body_font_pt }}pt; line-height: 1.36; }
+    .header-grid { grid-template-columns: 1fr; gap: 0; }
+    .meta-row { font-size: 10pt; line-height: 1.35; flex-wrap: wrap; white-space: normal; }
+    .section-title { font-size: 15pt; line-height: 1.2; }
+    .company { min-height: 27px; margin: 6px 0 3px; padding: 4px 7px; }
+    .company-name { font-size: 10.5pt; }
+    .company-meta { font-size: 9pt; }
+    .education-name .education-major { margin-left: 10px; font-weight: 400; }
+    .project { margin: 3px 0 5px; }
+    .project-title { font-size: 11pt; }
+    .project-link { font-size: 9pt; font-weight: 400; overflow-wrap: anywhere; }
+    .project-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    a { color: var(--blue); text-decoration: none; }
+    .education-gpa { margin-left: 8px; white-space: nowrap; }
+    li { margin: 2px 0; }
+    .skills-list { margin-top: 3px; }
+  </style>
+  {% if existing_styles|default('') %}
+  {{ existing_styles|safe }}
+  <style>body {font-size: {{ body_font_pt }}pt;}</style>
+  {% endif %}
+</head>
+<body data-page-mode="paged">
+  <!-- @ASU_TOOLBAR -->
+  {% if existing_main|default('') %}
+  {{ existing_main|safe }}
+  {% else %}
+  <main class="sheet" contenteditable="true">
+    <header class="header-grid">
+      <div>
+        <h1>{{ name }}</h1>
+        <div class="meta-row"><strong>求职意向：{{ intention }}</strong></div>
+        <div class="meta-row">电话 / 微信：{{ phone }}<span class="separator">|</span><a href="mailto:{{ email }}">{{ email }}</a></div>
+        <div class="meta-row"><a href="{{ github }}">{{ github.removeprefix('https://') }}</a><span class="separator">|</span>{{ availability }}</div>
+      </div>
+    </header>
+
+    <section class="section">
+      <h2 class="section-title">教育背景</h2>
+      {% for item in education %}
+      <div class="company">
+        <div class="company-name education-name">{{ item.school }}<span class="education-major">{{ item.degree }}</span>{% if item.gpa %}<span class="education-gpa">GPA：{{ item.gpa }}</span>{% endif %}</div>
+        <div class="company-meta">{{ item.dates }}</div>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">专业技能</h2>
+      <ul class="skills-list">
+        {% for skill in skills %}
+        {% set label, separator, detail = skill.partition('：') %}
+        <li>{% if separator and label|length < 16 %}<strong>{{ label }}：</strong>{{ detail }}{% else %}{{ skill }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">项目经历</h2>
+      {% for project in projects %}
+      <article class="project">
+        <div class="company project-heading">
+          <div class="company-name project-title">{{ project.name }}</div>
+          {% if project.link %}<a class="project-link" href="{{ project.link }}">{{ project.link.removeprefix('https://') }}</a>{% endif %}
+        </div>
+        <ul>
+          {% for bullet in project.bullets %}
+          {% set label, separator, detail = bullet.partition('：') %}
+          <li>{% if separator and label|length < 16 %}<strong>{{ label }}：</strong>{{ detail }}{% else %}{{ bullet }}{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endfor %}
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">竞赛与语言</h2>
+      <ul>{% for award in awards %}<li>{{ award }}</li>{% endfor %}</ul>
+    </section>
+  </main>
+  {% endif %}
+  <!-- @ASU_EDITOR -->
+</body>
+</html>

@@ -23,6 +23,8 @@ class LLMCallRecord:
     tool_calls: list = field(default_factory=list)
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    usage: dict = field(default_factory=dict)
+    finish_reason: str | None = None
     latency_ms: int = 0
     error: str | None = None
     execution_id: str | None = None

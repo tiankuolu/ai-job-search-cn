@@ -2,6 +2,7 @@
 # 模型客户端是一个可替换的协议对象：OpenAI 兼容端点与单元层的假模型走同一接口。
 
 import json
+from copy import copy
 import time
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -25,13 +26,15 @@ class LLMClient(Protocol):
 class OpenAICompatClient:
     """真实模型客户端：所有 OpenAI 兼容端点（DeepSeek/Qwen/GLM/Ollama）共用的实现。"""
 
-    def __init__(self, config: LLMConfig) -> None:
+    def __init__(self, config: LLMConfig, response_format: dict | None = None) -> None:
         import os
 
         import httpx  # 直接 import，缺依赖就地崩溃
         from openai import OpenAI
 
         config.require()
+        self.config = config
+        self.response_format = response_format
         self.model = str(config.model)
         # 超时可配置：本地 CPU 推理的端点单次生成可能超过默认 180 秒
         timeout_seconds = float(os.environ.get("JOBSEARCH_LLM_TIMEOUT", "180"))
@@ -51,12 +54,43 @@ class OpenAICompatClient:
         )
 
     def chat(self, messages: list, tools: list) -> dict:
+        options = {"response_format": self.response_format} if self.response_format else {}
+        if self.config.reasoning_effort:
+            options["reasoning_effort"] = self.config.reasoning_effort
+        if self.config.thinking_mode:
+            options["extra_body"] = {"thinking": {"type": self.config.thinking_mode}}
         response = self._client.chat.completions.create(
             model=self.model,
             messages=messages,
             tools=tools if tools else None,
+            **options,
         )
         return response.model_dump()
+
+    def with_json_output(self) -> "OpenAICompatClient":
+        return OpenAICompatClient(self.config, response_format={"type": "json_object"})
+
+    def with_json_schema(self, model) -> "OpenAICompatClient":
+        from openai.lib._pydantic import to_strict_json_schema
+
+        return type(self)(self.config, response_format={
+            "type": "json_schema",
+            "json_schema": {"name": model.__name__, "strict": True, "schema": to_strict_json_schema(model)},
+        })
+
+    def with_generation_options(self, effort: str | None, thinking_mode: str | None) -> "OpenAICompatClient":
+        if (effort is None or effort == self.config.reasoning_effort) and (thinking_mode is None or thinking_mode == self.config.thinking_mode):
+            return self
+        if effort is not None and effort not in {"low", "high", "max"}:
+            raise ValueError("推理强度必须为 low、high 或 max")
+        if thinking_mode is not None and thinking_mode not in {"enabled", "disabled"}:
+            raise ValueError("思考模式必须为 enabled 或 disabled")
+        config = copy(self.config)
+        if effort is not None:
+            config.reasoning_effort = effort
+        if thinking_mode is not None:
+            config.thinking_mode = thinking_mode
+        return type(self)(config, response_format=self.response_format)
 
 
 class Agent:
@@ -123,9 +157,16 @@ class Agent:
                     .get("tool_calls"),
                 }
                 usage = response.get("usage") or {}
+                record.usage = usage
+                record.finish_reason = response["choices"][0].get("finish_reason")
                 record.prompt_tokens = usage.get("prompt_tokens", 0)
                 record.completion_tokens = usage.get("completion_tokens", 0)
+                if record.finish_reason == "length":
+                    record.error = "模型响应达到长度限制，输出不完整"
                 self.trace.finish_call(record, started)
+
+            if response["choices"][0].get("finish_reason") == "length":
+                raise ValueError("模型响应达到长度限制，输出不完整")
 
             message = response["choices"][0]["message"]
             messages.append(message)

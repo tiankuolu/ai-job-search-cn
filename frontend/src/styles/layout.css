@@ -1,0 +1,157 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--page);
+}
+
+.navigation {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 26px 16px 18px;
+  background: var(--sidebar);
+  color: var(--sidebar-ink);
+}
+
+.main-shell {
+  min-width: 0;
+}
+
+.main-shell main {
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 28px 28px 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.page-heading h1 {
+  margin: 8px 0 8px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.page-heading p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-3);
+}
+
+.workbench {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr) 270px;
+  gap: 10px;
+  align-items: start;
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 28px;
+  font-size: 11px;
+  color: var(--muted-soft);
+}
+
+.page-footer > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 1400px) {
+  .ui-artifact__body { padding: 12px; }
+}
+
+@media (min-width: 1600px) {
+  .workbench {
+    grid-template-columns: 296px minmax(0, 1fr) 330px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 1240px) {
+  .workbench {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+
+  .jobs-panel {
+    grid-column: 1 / -1;
+  }
+
+  .job-list {
+    max-height: 320px;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 208px minmax(0, 1fr);
+  }
+
+  .main-shell main {
+    padding: 22px 18px 0;
+  }
+
+  .topbar {
+    padding: 0 18px;
+  }
+
+  .workbench {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .jobs-panel {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+  }
+
+  .navigation {
+    position: static;
+    height: auto;
+    padding: 18px 16px;
+  }
+
+  .main-shell main {
+    padding: 18px 14px 0;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page-heading h1 {
+    font-size: 21px;
+  }
+}

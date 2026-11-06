@@ -1,0 +1,46 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{geometry,titlesec,enumitem,hyperref}
+\setmainfont{Arial}
+\setCJKmainfont{Microsoft YaHei}
+\geometry{top=1.05cm,bottom=1cm,left=1.5cm,right=1.5cm}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\linespread{1.03}
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{0.18cm}{0.08cm}
+\setlist[itemize]{leftmargin=1.2em,itemsep=2pt,topsep=2pt,parsep=0pt}
+\hypersetup{colorlinks=true,urlcolor=black}
+\begin{document}
+\fontsize{10.5pt}{13pt}\selectfont
+\begin{center}
+{\Huge\bfseries ((( name|tex )))}\\[0.10cm]
+\textbf{求职意向：((( intention|tex )))}\\[0.08cm]
+电话/微信：((( phone|tex ))) \quad 邮箱：((( email|tex )))\\[0.04cm]
+GitHub：\href{((( github|tex )))}{((( github|tex )))}\\[0.04cm]
+((( availability|tex )))
+\end{center}
+\section*{教育背景}
+((* for item in education *))
+\textbf{((( item.school|tex )))} \hfill ((( item.dates|tex )))\quad ((( item.degree|tex )))\quad GPA：((( item.gpa|tex )))\par
+((* endfor *))
+\section*{项目经历}
+((* for project in projects *))
+\textbf{((( project.name|tex )))}
+((* if project.link *))\hfill \href{((( project.link|tex )))}{项目仓库}((* endif *))
+\begin{itemize}
+((* for bullet in project.bullets *))\item ((( bullet|tex )))
+((* endfor *))
+\end{itemize}
+((* endfor *))
+\section*{开源贡献与竞赛}
+\begin{itemize}
+((* for award in awards *))\item ((( award|tex )))
+((* endfor *))
+\end{itemize}
+\section*{专业技能}
+\begin{itemize}
+((* for skill in skills *))\item ((( skill|tex )))
+((* endfor *))
+\end{itemize}
+\end{document}

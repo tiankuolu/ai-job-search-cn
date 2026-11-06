@@ -1,6 +1,6 @@
 # 在 Codex 中使用
 
-打开 `D:\找实习`，读取根目录 `AGENTS.md`。
+打开用户配置的工作区，读取根目录 `AGENTS.md`。
 求职技能位于 `项目/找工作agent/ai-job-search-cn/.agents/skills/china-job-search/SKILL.md`。
 可以用自然语言指定岗位和目标，助手按 `markets/china/workflows/` 执行。
 

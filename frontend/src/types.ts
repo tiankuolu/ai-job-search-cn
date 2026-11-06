@@ -1,12 +1,14 @@
 export type Action = 'analyze' | 'apply' | 'rank' | 'interview';
+export type RunStatus = 'queued' | 'running' | 'completed' | 'failed' | 'review_required' | 'interrupted' | 'recorded';
 export type Job = { id: string; key: string; title: string; documents: string[] };
 export type Document = { name: string; content: string; kind?: string; label?: string };
 export type JobDetail = { id: string; key: string; content: string; documents: Document[] };
 export type Meta = { configured: boolean; model: string | null; missing: string[]; workspace: string };
 export type Run = {
-  run_id: string; action: Action; status: string; source: string; created_at: string;
+  run_id: string; action: Action; status: RunStatus; source: string; created_at: string;
   ended_at: string | null; error: string | null; jobs: { id: string; key: string }[];
   model: string | null; event_count: number;
+  revision?: string; base_run_id?: string;
 };
 export type Call = {
   call_id: string; agent: string; model: string; messages: { role: string; content?: string; [key: string]: unknown }[];
@@ -15,13 +17,44 @@ export type Call = {
   prompt_tokens: number; completion_tokens: number; latency_ms: number; error: string | null;
   execution_id?: string; task_id?: string;
 };
+export type RunEventData = {
+  action?: Action;
+  jobs?: { id: string; key: string }[];
+  execution_id?: string;
+  call_id?: string;
+  tool_id?: string;
+  agent?: string;
+  task_id?: string;
+  model?: string;
+  messages?: { role: string; content?: string; [key: string]: unknown }[];
+  response?: { content: string | null; tool_calls?: unknown[] } | null;
+  tool_calls?: { name: string; arguments: unknown }[];
+  prompt_tokens?: number;
+  completion_tokens?: number;
+  latency_ms?: number;
+  error?: string | null;
+  output?: string;
+  input?: string;
+  name?: string;
+  arguments?: unknown;
+  status?: string;
+  round?: number;
+  pass?: boolean;
+  violations?: unknown;
+  [key: string]: unknown;
+};
+export type RunResult = {
+  jobs?: { file?: string; status?: string; output?: string }[];
+  trace?: string;
+  [key: string]: unknown;
+};
 export type RunEvent = {
   seq: number; type: string; timestamp: string; run_id: string;
-  data: Record<string, any>;
+  data: RunEventData;
 };
 export type RunDetail = Run & {
   trace: { calls: Call[]; events?: RunEvent[]; total_tokens: number };
-  artifacts: Document[]; result: Record<string, any> | null;
+  artifacts: Document[]; result: RunResult | null;
 };
 export const actionNames: Record<Action, string> = {
   analyze: '岗位分析', apply: '申请材料', rank: '岗位排序', interview: '面试准备',

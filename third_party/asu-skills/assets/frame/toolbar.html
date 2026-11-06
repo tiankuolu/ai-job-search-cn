@@ -1,0 +1,19 @@
+<div class="resume-toolbar" role="toolbar" aria-label="简历工具" contenteditable="false">
+  <span class="toolbar-title">HTML 简历</span>
+  <button type="button" data-action="edit">编辑</button>
+  <button type="button" data-action="autofit" aria-pressed="false">自动一页</button>
+  <span data-fit-status class="fit-status" role="status" aria-live="polite"></span>
+  <label class="toolbar-control">字体<select data-action="font" aria-label="字体"><option value="Microsoft YaHei">微软雅黑</option><option value="SimSun">宋体</option><option value="SimHei">黑体</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><optgroup label="本地字体" data-local-font-group></optgroup></select></label>
+  <button type="button" data-action="local-fonts" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
+  <button type="button" data-action="import-font" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
+  <input type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple data-font-file-input hidden>
+  <label class="toolbar-control color-control">文字颜色<input type="color" data-action="color" value="#20252b" aria-label="文字颜色"></label>
+  <button type="button" data-action="bold" title="对选中文字加粗或取消加粗"><strong>B</strong> 加粗</button>
+  <label class="toolbar-control">字号<select data-action="font-size" title="字号" aria-label="字号"><option value="10px">10</option><option value="11px" selected>11</option><option value="12px">12</option><option value="14px">14</option><option value="16px">16</option><option value="18px">18</option><option value="22px">22</option><option value="26px">26</option></select></label>
+  <button type="button" data-action="photo">替换照片</button>
+  <button type="button" data-action="save">保存 HTML</button>
+  <button type="button" data-action="pdf">导出 PDF</button>
+  <button type="button" data-action="reset" title="清除所有编辑，恢复文件初始内容">重置</button>
+  <span data-save-status class="save-status" role="status" aria-live="polite">自动保存已开启</span>
+  <input type="file" accept="image/*" data-photo-input hidden>
+</div>

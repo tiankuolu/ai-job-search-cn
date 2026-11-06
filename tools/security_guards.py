@@ -10,6 +10,10 @@ PRIVATE_PATHS = (
     'cv/chinese/main_personal.tex', 'cover_letters/chinese/cover_personal.tex',
     '.artifacts/analysis-result.json',
     'runs/trace.json',
+    '求职材料/个人资料/candidate.md',
+    'browser-data/Default/Cookies', 'cookies/session.json',
+    'session.db', 'conversation.sqlite3', 'private.pem', 'private.key',
+    '.streamlit/secrets.toml',
 )
 PUBLIC_PATHS = (
     'AGENTS.md', '.agents/skills/china-job-search/SKILL.md',
@@ -39,6 +43,18 @@ def validate_workspace() -> list[str]:
             errors.append(f'个人资料路径缺少 Git 忽略保护：{path}')
     for path in ignored_paths(PUBLIC_PATHS):
         errors.append(f'公共工作流或模板被 Git 忽略：{path}')
+    tracked = subprocess.run(
+        ['git', 'ls-files', '-z'], cwd=ROOT, capture_output=True, check=True,
+    ).stdout.decode('utf-8').rstrip('\0').split('\0')
+    for relative in tracked:
+        if not relative:
+            continue
+        path = Path(relative)
+        local_config = path.name == '.env' or (path.name.startswith('.env.') and not path.name.endswith('.example'))
+        private_directory = {'runs', '.artifacts', 'browser-data', 'cookies', '求职材料'}.intersection(path.parts)
+        private_format = path.suffix.lower() in {'.db', '.sqlite', '.sqlite3', '.pem', '.key'}
+        if local_config or private_directory or private_format or relative == '.streamlit/secrets.toml':
+            errors.append(f'Git 跟踪了私人配置或运行资料：{relative}')
     if not (ROOT / '.agents/skills/china-job-search/SKILL.md').is_file():
         errors.append('缺少中国求职技能入口')
     for manifest in ROOT.glob('.agents/**/package.json'):

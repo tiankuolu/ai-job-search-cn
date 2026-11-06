@@ -20,6 +20,11 @@ def validate_workspace(root: Path) -> list[str]:
                 errors.append(f'{path.relative_to(root)}：缺少有效的 {key}')
     for relative in (
         'AGENTS.md', 'markets/china/workflows/index.md',
+        'markets/china/resume-writing.md',
+        'markets/china/resume-enhancement.md',
+        'third_party/asu-skills/LICENSE',
+        'third_party/asu-skills/assets/frame/asu/base.css',
+        'jobsearch_agents/delivery/templates/resume.html.j2',
         'markets/china/workflows/runtime.md',
         'markets/china/workflows/setup-profile.md',
         'markets/china/workflows/scrape-jobs.md',

@@ -1,16 +1,9 @@
-# 运行时配置从环境变量读取。
+# 模型配置由环境变量或明确指定的 DeepSeek 配置文件提供。
 
 import os
+from pathlib import Path
 
-
-def _require(name: str) -> str:
-    value = os.environ.get(name, "")
-    if not value:
-        raise RuntimeError(
-            f"缺少环境变量 {name}。请设置 JOBSEARCH_LLM_BASE_URL、"
-            "JOBSEARCH_LLM_MODEL、JOBSEARCH_LLM_API_KEY 后重试。"
-        )
-    return value
+from dotenv import dotenv_values
 
 
 class LLMConfig:
@@ -20,12 +13,30 @@ class LLMConfig:
         self.base_url: str | None = os.environ.get("JOBSEARCH_LLM_BASE_URL")
         self.model: str | None = os.environ.get("JOBSEARCH_LLM_MODEL")
         self.api_key: str | None = os.environ.get("JOBSEARCH_LLM_API_KEY")
+        self.reasoning_effort: str | None = os.environ.get("JOBSEARCH_LLM_REASONING_EFFORT")
+        if self.reasoning_effort and self.reasoning_effort not in {"low", "high", "max"}:
+            raise ValueError("JOBSEARCH_LLM_REASONING_EFFORT 必须为 low、high 或 max")
+        self.resume_reasoning_effort = os.environ.get("JOBSEARCH_RESUME_REASONING_EFFORT", self.reasoning_effort)
+        if self.resume_reasoning_effort and self.resume_reasoning_effort not in {"low", "high", "max"}:
+            raise ValueError("JOBSEARCH_RESUME_REASONING_EFFORT 必须为 low、high 或 max")
+        self.thinking_mode = os.environ.get("JOBSEARCH_LLM_THINKING")
+        self.resume_thinking_mode = os.environ.get("JOBSEARCH_RESUME_THINKING", self.thinking_mode)
+        for value in (self.thinking_mode, self.resume_thinking_mode):
+            if value is not None and value not in {"enabled", "disabled"}:
+                raise ValueError("思考模式配置必须为 enabled 或 disabled")
+        source_file = os.environ.get("JOBSEARCH_DEEPSEEK_ENV_FILE")
+        if source_file:
+            path = Path(source_file).resolve(strict=True)
+            settings = dotenv_values(path)
+            self.base_url = settings["DEEPSEEK_BASE_URL"]
+            self.api_key = settings["DEEPSEEK_API_KEY"]
 
     def require(self) -> "LLMConfig":
         """集成路径使用：三个变量缺一就就地崩溃。"""
-        _require("JOBSEARCH_LLM_BASE_URL")
-        _require("JOBSEARCH_LLM_MODEL")
-        _require("JOBSEARCH_LLM_API_KEY")
+        for name, value in {"JOBSEARCH_LLM_BASE_URL": self.base_url, "JOBSEARCH_LLM_MODEL": self.model,
+                            "JOBSEARCH_LLM_API_KEY": self.api_key}.items():
+            if not value:
+                raise RuntimeError(f"模型配置缺少 {name}，请检查环境变量或指定的 DeepSeek 配置文件")
         return self
 
 
