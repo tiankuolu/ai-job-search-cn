@@ -16,11 +16,11 @@
 
 ## 操作演示
 
-[![工作台处理结果：JD 字段、岗位原文、分析依据与材料选项](docs/media/workbench-preview.gif)](docs/demo.md)
+[![求职 Agent：风格章节动画与真实工作台执行结果](docs/media/workbench-overview.gif)](docs/demo.md)
 
-**[下载二十二秒演示视频](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [查看静态截图](docs/media/workbench-preview.png) · [录制说明](docs/demo.md)
+**[下载三十五秒完整演示](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-overview.mp4)** · [二十二秒执行录屏](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4) · [制作与录制说明](docs/demo.md)
 
-演示来自真实页面和模型请求，使用公开岗位与空白候选人档案，展示字段提取、岗位保存和分析结果。
+章节动画与真实执行画面交替呈现，展示字段提取、岗位保存、分析结果和材料选项，等待片段已经剪除。录屏来自真实页面和模型请求，使用公开岗位与空白候选人档案。
 
 ## 如何处理一份申请
 
