@@ -1,10 +1,11 @@
 # 工作台操作演示
 
-[![观看操作演示](media/workbench-preview.png)](media/workbench-demo.mp4)
+[![工作台操作演示节选](media/workbench-preview.gif)](media/workbench-demo.mp4)
 
-[观看 MP4](media/workbench-demo.mp4) · [直接下载](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)
+[下载完整 MP4](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4) · [静态截图](media/workbench-preview.png)
 
 录制日期：2026-11-06。时长约一分二十六秒，含中文字幕。
+上方动画为完整视频的操作节选，可以直接在 README 与此页查看。
 
 ## 视频内容
 

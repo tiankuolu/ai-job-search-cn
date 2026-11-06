@@ -9,9 +9,9 @@
 
 ## 操作演示
 
-[![点击观看工作台操作演示](docs/media/workbench-preview.png)](docs/media/workbench-demo.mp4)
+[![工作台操作演示节选](docs/media/workbench-preview.gif)](docs/demo.md)
 
-**[观看 MP4 演示](docs/media/workbench-demo.mp4)** · [下载视频](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4) · [演示内容与录制说明](docs/demo.md)
+上方为真实录屏节选。**[下载完整 MP4（86 秒，含中文字幕）](https://raw.githubusercontent.com/tiankuolu/ai-job-search-cn/main/docs/media/workbench-demo.mp4)** · [静态截图](docs/media/workbench-preview.png) · [演示内容与录制说明](docs/demo.md)
 
 视频录制真实工作台：导入公开 JD、调用模型提取字段、保存岗位、查看原文、分析资料缺失和选择后续材料。演示使用空白候选人档案，个人信息与招聘账号保持私密。
 
